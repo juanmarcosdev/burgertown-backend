@@ -8,45 +8,54 @@
 
 DROP VIEW  IF EXISTS Facturas;
 
-DROP TABLE IF EXISTS Pedido_contiene_producto;
-DROP TABLE IF EXISTS Pedido;
-DROP TABLE IF EXISTS Producto;
-DROP TABLE IF EXISTS Categoria;
-DROP TABLE IF EXISTS Trabajador;
+DROP TABLE IF EXISTS Pedido_contiene_productos;
+DROP TABLE IF EXISTS Pedidos;
+DROP TABLE IF EXISTS Productos;
+DROP TABLE IF EXISTS Categorias;
+DROP TABLE IF EXISTS Trabajadores;
 DROP TABLE IF EXISTS Tarjeta;
-DROP TABLE IF EXISTS Cliente;
-DROP TABLE IF EXISTS Sede;
+DROP TABLE IF EXISTS Clientes;
+DROP TABLE IF EXISTS Sedes;
 
 
 
 
-DROP SEQUENCE IF EXISTS secuencia_sede;
-DROP SEQUENCE IF EXISTS secuencia_producto;
-DROP SEQUENCE IF EXISTS secuencia_pedido;
-DROP SEQUENCE IF EXISTS secuencia_categoria;
+DROP SEQUENCE IF EXISTS secuencia_sedes;
+DROP SEQUENCE IF EXISTS secuencia_productos;
+DROP SEQUENCE IF EXISTS secuencia_pedidos;
+DROP SEQUENCE IF EXISTS secuencia_categorias;
+DROP SEQUENCE IF EXISTS secuencia_clientes;
+DROP SEQUENCE IF EXISTS secuencia_trabajadores;
 
 
 
-DROP TRIGGER IF EXISTS tr_codificar_producto ON Producto;
-DROP TRIGGER IF EXISTS tr_codificar_sede ON Sede;
-DROP TRIGGER IF EXISTS tr_codificar_pedido ON Pedido;
-DROP TRIGGER IF EXISTS tr_codificar_categoria ON Categoria;
-DROP TRIGGER IF EXISTS tr_ingreso_trabajador ON Trabajador;
+DROP TRIGGER IF EXISTS tr_codificar_producto ON Productos;
+DROP TRIGGER IF EXISTS tr_codificar_sede ON Sedes;
+DROP TRIGGER IF EXISTS tr_codificar_pedido ON Pedidos;
+DROP TRIGGER IF EXISTS tr_codificar_categoria ON Categorias;
+DROP TRIGGER IF EXISTS tr_ingreso_trabajador ON Trabajadores;
+DROP TRIGGER IF EXISTS tr_codificar_trabajador ON Trabajadores;
+DROP TRIGGER IF EXISTS tr_codificar_cliente ON Clientes;
 
 DROP FUNCTION IF EXISTS codificar_categoria;
 DROP FUNCTION IF EXISTS codificar_pedido;
 DROP FUNCTION IF EXISTS codificar_producto;
+DROP FUNCTION IF EXISTS codificar_cliente;
 DROP FUNCTION IF EXISTS codificar_sede;
 DROP FUNCTION IF EXISTS insertar_trabajador;
 
 
-CREATE SEQUENCE secuencia_producto;
-CREATE SEQUENCE secuencia_sede;
-CREATE SEQUENCE secuencia_pedido;
-CREATE SEQUENCE secuencia_categoria;
+
+CREATE SEQUENCE secuencia_productos;
+CREATE SEQUENCE secuencia_sedes;
+CREATE SEQUENCE secuencia_pedidos;
+CREATE SEQUENCE secuencia_categorias;
+CREATE SEQUENCE secuencia_trabajadores;
+CREATE SEQUENCE secuencia_clientes;
 
 
-CREATE TABLE Cliente(
+CREATE TABLE Clientes(
+	cliente_id				   INT,
 	cliente_celular   		   VARCHAR(20) NOT NULL,
 	cliente_nombre   		   VARCHAR(20) NOT NULL,
 	cliente_apellido   		   VARCHAR(20) NOT NULL,
@@ -54,8 +63,9 @@ CREATE TABLE Cliente(
 	cliente_direccion   	   VARCHAR(20) NOT NULL,
 	cliente_fecha_nacimiento   DATE,
 	cliente_password  		   VARCHAR(256) NOT NULL,
+	cliente_estado			   INT,
 	
-	CONSTRAINT pk_cliente PRIMARY KEY(cliente_celular)
+	CONSTRAINT pk_cliente PRIMARY KEY(cliente_id)
 );
 
 CREATE TABLE Tarjeta(
@@ -63,22 +73,24 @@ CREATE TABLE Tarjeta(
 	tarjeta_cvc				   VARCHAR(3),
 	tarjeta_vencimiento		   DATE,
 	tarjeta_tipo			   INT,
-	cliente_celular			   VARCHAR(20),
+	cliente_id			       INT,
 	
 	CONSTRAINT pk_tarjeta PRIMARY KEY (tarjeta_numero),
-	CONSTRAINT fk_tarjeta FOREIGN KEY (cliente_celular)
-		REFERENCES Cliente(cliente_celular) ON UPDATE CASCADE ON DELETE RESTRICT
+	CONSTRAINT fk_tarjeta FOREIGN KEY (cliente_id)
+		REFERENCES Clientes(cliente_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
-CREATE TABLE Sede(
+CREATE TABLE Sedes(
 	sede_id				   	   INT,
 	sede_nombre   		       VARCHAR(20) NOT NULL,
 	sede_direccion   	       VARCHAR(20) NOT NULL,
 	sede_ciudad				   VARCHAR(20) NOT NULL,
+	sede_estado				   INT,
 	
 	CONSTRAINT pk_sede PRIMARY KEY(sede_id)
 );
 
-CREATE TABLE Trabajador(
+CREATE TABLE Trabajadores(
+	trabajador_id 			   INT,
 	trabajador_documento 	   VARCHAR(20) NOT NULL,
 	trabajador_nombre   	   VARCHAR(20) NOT NULL,
 	trabajador_apellido   	   VARCHAR(20) NOT NULL,
@@ -88,22 +100,24 @@ CREATE TABLE Trabajador(
 	trabajador_cargo		   VARCHAR(30) NOT NULL,
 	trabajador_direccion       VARCHAR(20) NOT NULL,
 	trabajador_password 	   VARCHAR(256) NOT NULL,
+	trabajador_estado		   INT,
 	sede_id					   INT,
 	
-	CONSTRAINT pk_trabajador PRIMARY KEY(trabajador_documento),
+	CONSTRAINT pk_trabajador PRIMARY KEY(trabajador_id),
 	CONSTRAINT fk_trabajador FOREIGN KEY(sede_id)
-		REFERENCES Sede(sede_id) ON UPDATE CASCADE ON DELETE SET NULL
+		REFERENCES Sedes(sede_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
-CREATE TABLE Categoria(
+CREATE TABLE Categorias(
 	categoria_id 			   INT,
 	categoria_nombre 		   VARCHAR(20) NOT NULL,
 	categoria_descripcion      VARCHAR(200) NOT NULL,
+	categoria_estado		   INT,
 	
 	CONSTRAINT pk_categoria PRIMARY KEY(categoria_id)
 );
 
-CREATE TABLE Producto(
+CREATE TABLE Productos(
 	producto_codigo			   INT,
 	producto_nombre			   VARCHAR(20) NOT NULL,
 	producto_descripcion	   VARCHAR(200) NOT NULL,
@@ -112,28 +126,29 @@ CREATE TABLE Producto(
 	producto_precio			   INT,
 	producto_descuento         INT,
 	producto_iva			   INT,
-	categoria_id			   INT,
+	producto_estado			   INT,
+	categoria_id			   INT DEFAULT(0),
 	
 	CONSTRAINT pk_producto PRIMARY KEY (producto_codigo),
 	CONSTRAINT fk_producto FOREIGN KEY (categoria_id)
-		REFERENCES Categoria(categoria_id) ON UPDATE CASCADE ON DELETE SET NULL
+		REFERENCES Categorias(categoria_id) ON UPDATE CASCADE ON DELETE SET DEFAULT
 );
 
-CREATE TABLE Pedido(
+CREATE TABLE Pedidos(
 	pedido_id				   INT,
 	sede_id					   INT,
-	cliente_celular            VARCHAR(20),
+	cliente_id            	   INT,
 	
 	
 	CONSTRAINT pk_pedido PRIMARY KEY(pedido_id),
 	CONSTRAINT fk_pedido_sede FOREIGN KEY(sede_id)
-		REFERENCES Sede(sede_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-	CONSTRAINT fk_pedido_cliente FOREIGN KEY(cliente_celular)
-		REFERENCES Cliente(cliente_celular) ON UPDATE CASCADE ON DELETE NO ACTION
+		REFERENCES Sedes(sede_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_pedido_cliente FOREIGN KEY(cliente_id)
+		REFERENCES Clientes(cliente_id) ON UPDATE CASCADE ON DELETE SET NULL 
 	
 );
 
-CREATE TABLE Pedido_contiene_producto(
+CREATE TABLE Pedido_contiene_productos(
 	pedido_cp_cantidad		   INT,
 	pedido_cp_precio	       INT,
 	pedido_id				   INT,
@@ -142,10 +157,10 @@ CREATE TABLE Pedido_contiene_producto(
 	CONSTRAINT pk_pedido_cp PRIMARY KEY(pedido_id,producto_codigo),
 	
 	CONSTRAINT fk_pedido_cp_pedido FOREIGN KEY(pedido_id)
-		REFERENCES Pedido(pedido_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+		REFERENCES Pedidos(pedido_id) ON UPDATE CASCADE ON DELETE RESTRICT,
 		
-	CONSTRAINT fk_pedido_cop_producto FOREIGN KEY(producto_codigo)
-		REFERENCES Producto(producto_codigo) ON UPDATE CASCADE ON DELETE NO ACTION
+	CONSTRAINT fk_pedido_cp_producto FOREIGN KEY(producto_codigo)
+		REFERENCES Productos(producto_codigo) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- ************************************************************************************
@@ -153,17 +168,35 @@ CREATE TABLE Pedido_contiene_producto(
 -- ************************PROCEDIMIENTOS ALMACENADOS**********************************
 
 
+-- ************************************************************************************
+
+CREATE FUNCTION codificar_cliente() RETURNS TRIGGER AS $$
+DECLARE
+BEGIN
+	NEW.cliente_id := NEXTVAL('secuencia_clientes');
+	RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_codificar_cliente BEFORE INSERT 
+ON Clientes FOR EACH ROW 
+EXECUTE PROCEDURE codificar_cliente();
+
+-- ************************************************************************************
+
+
+
 
 CREATE FUNCTION codificar_producto() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
-	NEW.producto_codigo := NEXTVAL('secuencia_producto');
+	NEW.producto_codigo := NEXTVAL('secuencia_productos');
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tr_codificar_producto BEFORE INSERT 
-ON Producto FOR EACH ROW 
+ON Productos FOR EACH ROW 
 EXECUTE PROCEDURE codificar_producto();
 
 -- ************************************************************************************
@@ -171,13 +204,13 @@ EXECUTE PROCEDURE codificar_producto();
 CREATE FUNCTION codificar_sede() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
-	NEW.sede_id := NEXTVAL('secuencia_sede');
+	NEW.sede_id := NEXTVAL('secuencia_sedes');
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tr_codificar_sede BEFORE INSERT 
-ON Sede FOR EACH ROW 
+ON Sedes FOR EACH ROW 
 EXECUTE PROCEDURE codificar_sede();
 
 -- ************************************************************************************
@@ -185,13 +218,13 @@ EXECUTE PROCEDURE codificar_sede();
 CREATE FUNCTION codificar_pedido() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
-	NEW.pedido_id := NEXTVAL('secuencia_pedido');
+	NEW.pedido_id := NEXTVAL('secuencia_pedidos');
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tr_codificar_pedido BEFORE INSERT 
-ON Pedido FOR EACH ROW 
+ON Pedidos FOR EACH ROW 
 EXECUTE PROCEDURE codificar_pedido();
 
 
@@ -200,13 +233,13 @@ EXECUTE PROCEDURE codificar_pedido();
 CREATE FUNCTION codificar_categoria() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
-	NEW.categoria_id := NEXTVAL('secuencia_categoria');
+	NEW.categoria_id := NEXTVAL('secuencia_categorias');
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tr_codificar_categoria BEFORE INSERT
-ON Categoria FOR EACH ROW
+ON Categorias FOR EACH ROW
 EXECUTE PROCEDURE codificar_categoria();
 
 
@@ -216,44 +249,45 @@ CREATE FUNCTION insertar_trabajador() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
 	NEW.trabajador_contratacion :=  current_date;
+	NEW.trabajador_id := NEXTVAL('secuencia_trabajadores');
 	RETURN NEW;
 END
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tr_insertar_trabajador BEFORE INSERT
-ON Trabajador FOR EACH ROW
+ON Trabajadores FOR EACH ROW
 EXECUTE PROCEDURE insertar_trabajador();
 -- ************************************************************************************
 
 
-INSERT INTO Sede(sede_nombre,sede_direccion,sede_ciudad) VALUES('Sede Costa','Carrera 1 # 5-30','Cali');
+INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad) VALUES('Sede Costa','Carrera 1 # 5-30','Cali');
 
-INSERT INTO Cliente(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password)
+INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password)
 VALUES('3166891624','Cristian','Pascumal','1113696488','Carrera 4 # 7-10','30-03-1999','3031999c');
 
-INSERT INTO Categoria(categoria_nombre,categoria_descripcion) VALUES ('Pizzas','Las pizzas de la sede costa');
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Pizzas','Las pizzas de la sede costa');
 
-INSERT INTO Categoria(categoria_nombre,categoria_descripcion) VALUES ('Hamburguesas','Las hamburguesas de la sede costa');
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Hamburguesas','Las hamburguesas de la sede costa');
 
-INSERT INTO Pedido(sede_id,cliente_celular) VALUES (1,'3166891624');
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (1,1);
 
-INSERT INTO Producto(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
  VALUES ('Pizza','Deliciosa pizza de champiñones','pizza.jpg',10,50,5,16,1);
 
-INSERT INTO Producto(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
  VALUES ('Hamburguesa','Deliciosa hamburguesa americana','burguer.jpg',10,100,5,16,2);
 
-INSERT INTO Pedido_contiene_producto (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (2,500,1,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (2,500,1,1);
 
-INSERT INTO Pedido_contiene_producto (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (1,100,1,2);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (1,100,1,2);
 
-INSERT INTO Trabajador(trabajador_documento,sede_id,trabajador_nombre,trabajador_apellido,trabajador_celular,trabajador_foto,trabajador_cargo,trabajador_direccion,trabajador_password)
+INSERT INTO Trabajadores(trabajador_documento,sede_id,trabajador_nombre,trabajador_apellido,trabajador_celular,trabajador_foto,trabajador_cargo,trabajador_direccion,trabajador_password)
  VALUES('13063664','1','Luis','Pascumal','3178145209','trabajador.jpg','ADMIN','Calle 7','3031999');
 
 
 --FACTURAS:
 
-CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, SUM(pedido_cp_precio) AS costo_pedido FROM pedido NATURAL JOIN pedido_contiene_producto NATURAL JOIN Cliente NATURAL JOIN Sede GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
+CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, SUM(pedido_cp_precio) AS costo_pedido FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
 
 
 
