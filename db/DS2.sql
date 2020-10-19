@@ -56,7 +56,7 @@ CREATE SEQUENCE secuencia_clientes;
 
 CREATE TABLE Clientes(
 	cliente_id				   INT,
-	cliente_celular   		   VARCHAR(20) NOT NULL,
+	cliente_celular   		   VARCHAR(20) NOT NULL UNIQUE,
 	cliente_nombre   		   VARCHAR(20) NOT NULL,
 	cliente_apellido   		   VARCHAR(20) NOT NULL,
 	cliente_documento          VARCHAR(20) NOT NULL,
@@ -91,7 +91,7 @@ CREATE TABLE Sedes(
 
 CREATE TABLE Trabajadores(
 	trabajador_id 			   INT,
-	trabajador_documento 	   VARCHAR(20) NOT NULL,
+	trabajador_documento 	   VARCHAR(20) NOT NULL UNIQUE,
 	trabajador_nombre   	   VARCHAR(20) NOT NULL,
 	trabajador_apellido   	   VARCHAR(20) NOT NULL,
 	trabajador_celular		   VARCHAR(20) NOT NULL,

@@ -2,9 +2,15 @@ const Sequelize = require('sequelize')
 const db = require('../config/db')
 
 const Cliente = db.define("clientes",{
+    cliente_id  :{
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+
+    },
+
     cliente_celular:{
         type: Sequelize.CHAR,
-        primaryKey:true
+        
 
     },
     cliente_nombre:{
@@ -36,7 +42,6 @@ const Cliente = db.define("clientes",{
         allowNull: false
 
     }
-
 },{
     timestamps : false
 });

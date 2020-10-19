@@ -2,9 +2,13 @@ const Sequelize = require('sequelize')
 const db = require('../config/db')
 
 const Trabajador = db.define('Trabajador',{
+    trabajador_id:{
+        type: Sequelize.INTEGER,
+        primaryKey:true,
+    },
+
     trabajador_documento:{
         type: Sequelize.CHAR,
-        primaryKey:true,
         allowNull: false
 
     },
@@ -45,8 +49,7 @@ const Trabajador = db.define('Trabajador',{
         type: Sequelize.CHAR,
         allowNull: false
 
-    },
-    
+    }
     
 
 },{
