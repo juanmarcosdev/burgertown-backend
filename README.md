@@ -1,5 +1,5 @@
 
-##Valores para un cliente
+## Valores para un cliente:
 
 <code>
 {
@@ -16,7 +16,7 @@
 
 
 
-##Valores para un trabajador
+## Valores para un trabajador:
 <code> 
 {
      "trabajador_documento": "59650873",
@@ -31,19 +31,19 @@
      }
 </code>
 
-##Estructuras para los endpoints:
+## Estructuras para los endpoints:
 
-###Crear(POST):
+### Crear(POST):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/Create
 
-###Obtener un registro en especifico(GET):
+### Obtener un registro en especifico(GET):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/:registro_id
 
-###Obtener todos los registros de una tabla(GET):
+### Obtener todos los registros de una tabla(GET):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/Get
 
-###Editar un registro de una tabla(PUT)
+### Editar un registro de una tabla(PUT):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/Edit/:registro_id
 
-###Cambiar estado de un registro de una tabla(PUT)
+### Cambiar estado de un registro de una tabla(PUT):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/:registro_id
