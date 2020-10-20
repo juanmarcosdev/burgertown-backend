@@ -31,6 +31,24 @@
      }
 </code>
 
+## Valores para un producto:
+
+<code>
+{
+     "producto_codigo" : 4040,
+     "producto_nombre": "pizza vegetariana",
+     "producto_descripcion": "variedad de vegetales",
+     "producto_imagen": "jpg",
+     "producto_existencias": 10
+     "producto_precio"  : 15000,
+     "producto_descuento" : 10,
+     "producto_iva": 7,
+    // "producto_estado" : 1,
+    // "categoria_id":  3
+    }  
+
+</code>
+
 ## Estructuras para los endpoints:
 
 ### Crear(POST):
