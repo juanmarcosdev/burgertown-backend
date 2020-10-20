@@ -63,7 +63,7 @@ CREATE TABLE Clientes(
 	cliente_direccion   	   VARCHAR(20) NOT NULL,
 	cliente_fecha_nacimiento   DATE,
 	cliente_password  		   VARCHAR(256) NOT NULL,
-	cliente_estado			   INT,
+	cliente_estado			   INT DEFAULT 1,
 	
 	CONSTRAINT pk_cliente PRIMARY KEY(cliente_id)
 );
@@ -100,7 +100,7 @@ CREATE TABLE Trabajadores(
 	trabajador_cargo		   VARCHAR(30) NOT NULL,
 	trabajador_direccion       VARCHAR(20) NOT NULL,
 	trabajador_password 	   VARCHAR(256) NOT NULL,
-	trabajador_estado		   INT,
+	trabajador_estado		   INT DEFAULT 1,
 	sede_id					   INT,
 	
 	CONSTRAINT pk_trabajador PRIMARY KEY(trabajador_id),
@@ -112,7 +112,7 @@ CREATE TABLE Categorias(
 	categoria_id 			   INT,
 	categoria_nombre 		   VARCHAR(20) NOT NULL,
 	categoria_descripcion      VARCHAR(200) NOT NULL,
-	categoria_estado		   INT,
+	categoria_estado		   INT DEFAULT 1,
 	
 	CONSTRAINT pk_categoria PRIMARY KEY(categoria_id)
 );
@@ -127,7 +127,7 @@ CREATE TABLE Productos(
 	producto_descuento         INT,
 	producto_iva			   INT,
 	producto_estado			   INT,
-	categoria_id			   INT DEFAULT(0),
+	categoria_id			   INT DEFAULT 1,
 	
 	CONSTRAINT pk_producto PRIMARY KEY (producto_codigo),
 	CONSTRAINT fk_producto FOREIGN KEY (categoria_id)
@@ -136,6 +136,7 @@ CREATE TABLE Productos(
 
 CREATE TABLE Pedidos(
 	pedido_id				   INT,
+	pedido_estado			   INT DEFAULT 1,
 	sede_id					   INT,
 	cliente_id            	   INT,
 	
@@ -288,6 +289,5 @@ INSERT INTO Trabajadores(trabajador_documento,sede_id,trabajador_nombre,trabajad
 --FACTURAS:
 
 CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, SUM(pedido_cp_precio) AS costo_pedido FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
-
 
 

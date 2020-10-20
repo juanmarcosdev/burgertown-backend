@@ -7,10 +7,10 @@ async function getCliente(req, res) {
         let getCliente = await Cliente.findOne({
 
             where: {
-                cliente_celular:cliente_celular
+                cliente_celular: cliente_celular
             }
         })
-        
+
         res.json({
             data: getCliente
         })
@@ -76,27 +76,78 @@ async function createCliente(req, res) {
 
 }
 
-async function deleteCliente(req,res){
+async function stateCliente(req, res) {
+    const { cliente_celular } = req.params;
+    const clientes = await Cliente.findAll({
+        attributes: ['cliente_id', 'cliente_estado'],
+        where: {
+            cliente_celular
+        }
+    });
     try {
-        const {cliente_celular} = req.params;
-        let deleteRowCount = await Cliente.destroy({
-            where:{
-                cliente_celular
-            }
-        })
-        res.json({
-            message: 'Cliente eliminado satisfactoriamente',
-            count : deleteRowCount
-        })
+        if (clientes.length > 0) {
+            clientes.forEach(async cliente => {
+                console.log(cliente.cliente_estado);
+                nuevoestado = cliente.cliente_estado == 0 ? 1 : 0;
+                await cliente.update({
+                    cliente_estado : nuevoestado
+                });
+
+            })
+
+            return res.json({
+                meesage: 'Cliente deshabilitado/habilitadoesatisfactoriamente',
+                data: clientes
+            })
+
+        }
+
     } catch (error) {
         console.log(error);
-        res.status(500).json({
-            message:'Error al eliminar este cliente'
+    }
+
+
+
+
+
+}
+
+async function editCliente(req, res) {
+    const { cliente_celular } = req.params;
+    const { cliente_nombre, cliente_apellido, cliente_documento, cliente_direccion, cliente_fecha_nacimiento, cliente_password } = req.body;
+
+    const clientes = await Cliente.findAll({
+        attributes: ['cliente_id', 'cliente_celular', 'cliente_nombre', 'cliente_apellido', 'cliente_documento', 'cliente_direccion', 'cliente_fecha_nacimiento', 'cliente_password'],
+
+        where: {
+            cliente_celular
+        },
+
+    })
+
+    if (clientes.length > 0) {
+        clientes.forEach(async cliente => {
+            await cliente.update({
+                cliente_nombre,
+                cliente_apellido,
+                cliente_documento,
+                cliente_direccion,
+                cliente_fecha_nacimiento,
+                cliente_password
+            });
+
         })
     }
+    return res.json({
+        message: 'Datos cambiados correctamente',
+        data: clientes
+    })
+
 }
+
 
 exports.createCliente = createCliente;
 exports.getClientes = getClientes;
 exports.getCliente = getCliente;
-exports.deleteCliente = deleteCliente;
+exports.stateCliente = stateCliente;
+exports.editCliente = editCliente;

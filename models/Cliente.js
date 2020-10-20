@@ -41,6 +41,10 @@ const Cliente = db.define("clientes",{
         type: Sequelize.CHAR,
         allowNull: false
 
+    },
+    cliente_estado : {
+        type: Sequelize.INTEGER,
+        default: 0
     }
 },{
     timestamps : false

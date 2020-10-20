@@ -1,6 +1,6 @@
 const {Router} = require('express')
 const router = Router();
-const {createCliente,getClientes,getCliente, deleteCliente} = require('../controllers/cliente.controller')
+const {createCliente,getClientes,getCliente, stateCliente, editCliente} = require('../controllers/cliente.controller')
 
 
 //    /api/Cliente...
@@ -8,7 +8,8 @@ router.post('/Create',createCliente);
 router.get('/Get',getClientes);
 
 //    /api/:cliente_celular
-router.get('/:cliente_celular',getCliente)
-router.delete('/:cliente_celular',deleteCliente)
+router.get('/:cliente_celular',getCliente);
+router.put('/:cliente_celular',stateCliente);
+router.put('/Edit/:cliente_celular',editCliente);
 
 module.exports = router;
