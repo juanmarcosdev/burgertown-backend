@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
-module.exports  = new Sequelize('ds2','postgres','11111',{
-    host:'localhost',
-    dialect:'postgres',
-    
-
+module.exports  = new Sequelize(process.env.DATABASE_URL, {
+    dialect:  'postgres',
+      protocol: 'postgres',
+      port:     match[4],
+      host:     match[3],
+      logging:  true //false
 })
