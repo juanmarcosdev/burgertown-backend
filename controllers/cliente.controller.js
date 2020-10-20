@@ -2,7 +2,7 @@ const Cliente = require('../models/Cliente');
 
 async function getCliente(req, res) {
     const { cliente_celular } = req.params
-    console.log(cliente_celular);
+   // console.log(cliente_celular);
     try {
         let getCliente = await Cliente.findOne({
 
