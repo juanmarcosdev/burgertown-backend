@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/db')
 
-const Trabajador = db.define('Trabajador',{
+const Trabajador = db.define('trabajadores',{
     trabajador_id:{
         type: Sequelize.INTEGER,
         primaryKey:true,
@@ -49,6 +49,10 @@ const Trabajador = db.define('Trabajador',{
         type: Sequelize.CHAR,
         allowNull: false
 
+    },
+    trabajador_estado : {
+        type: Sequelize.INTEGER,
+        default: 0
     }
     
 
@@ -57,14 +61,14 @@ const Trabajador = db.define('Trabajador',{
 });
 
 
-Sede.hasMany(Trabajador,{foreingKey: 'sede_id'})
+/*Sede.hasMany(Trabajador,{foreingKey: 'sede_id'})
 
 
 Trabajador.belongsTo(Sede,{
     foreignKey: 'sede_id'
 
 })
-
+*/
 
 
 module.exports = Trabajador;
