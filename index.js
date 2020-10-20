@@ -1,10 +1,11 @@
 const app = require('./app');
 const db = require('./config/db');
 
+const port = process.env.PORT || 3000;
 
 
 //Iniciar Server
-app.listen(5000, () => {
+app.listen(port, () => {
     console.log('Server has started on port 5000');
 })
 
