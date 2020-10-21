@@ -10,6 +10,8 @@ const rutasTrabajador = require('./routes/Trabajador')
 app.use(cors());
 app.use(express.json())
 app.use(morgan('dev'))
+a
+
 
 //Rutas cliente
 app.use('/Cliente',rutasCliente);

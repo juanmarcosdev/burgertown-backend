@@ -1,5 +1,4 @@
 const Cliente = require('../models/Cliente');
-
 async function getCliente(req, res) {
     const { cliente_id } = req.params
     try {
