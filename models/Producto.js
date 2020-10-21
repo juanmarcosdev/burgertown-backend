@@ -57,4 +57,4 @@ const Producto = db.define("productos",{
     timestamps : false
 });
 
-module.exports = Cliente;
+module.exports = Producto;
