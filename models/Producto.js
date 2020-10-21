@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/db')
 
-const Cliente = db.define("productos",{
+const Producto = db.define("productos",{
     producto_codigo  :{
         type: Sequelize.INTEGER,
         primaryKey:true,
