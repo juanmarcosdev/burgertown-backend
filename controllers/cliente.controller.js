@@ -1,13 +1,12 @@
 const Cliente = require('../models/Cliente');
 
 async function getCliente(req, res) {
-    const { cliente_celular } = req.params
-    console.log(cliente_celular);
+    const { cliente_id } = req.params
     try {
         let getCliente = await Cliente.findOne({
 
             where: {
-                cliente_celular: cliente_celular
+                cliente_id
             }
         })
 
@@ -77,11 +76,11 @@ async function createCliente(req, res) {
 }
 
 async function stateCliente(req, res) {
-    const { cliente_celular } = req.params;
+    const { cliente_id } = req.params;
     const clientes = await Cliente.findAll({
         attributes: ['cliente_id', 'cliente_estado'],
         where: {
-            cliente_celular
+            cliente_id
         }
     });
     try {
@@ -113,14 +112,14 @@ async function stateCliente(req, res) {
 }
 
 async function editCliente(req, res) {
-    const { cliente_celular } = req.params;
+    const { cliente_id } = req.params;
     const { cliente_nombre, cliente_apellido, cliente_documento, cliente_direccion, cliente_fecha_nacimiento, cliente_password } = req.body;
 
     const clientes = await Cliente.findAll({
         attributes: ['cliente_id', 'cliente_celular', 'cliente_nombre', 'cliente_apellido', 'cliente_documento', 'cliente_direccion', 'cliente_fecha_nacimiento', 'cliente_password'],
 
         where: {
-            cliente_celular
+            cliente_id
         },
 
     })
