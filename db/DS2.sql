@@ -6,14 +6,17 @@
 -- PostGIS 2.5
 -- ***********************************************************************************
 
-DROP VIEW  IF EXISTS Facturas;
+
+DROP VIEW IF EXISTS Facturas;
+DROP VIEW IF EXISTS Pago_Facturas;
 
 DROP TABLE IF EXISTS Pedido_contiene_productos;
 DROP TABLE IF EXISTS Pedidos;
 DROP TABLE IF EXISTS Productos;
 DROP TABLE IF EXISTS Categorias;
 DROP TABLE IF EXISTS Trabajadores;
-DROP TABLE IF EXISTS Tarjeta;
+DROP TABLE IF EXISTS Tarjetas;
+DROP TABLE IF EXISTS Pagos;
 DROP TABLE IF EXISTS Clientes;
 DROP TABLE IF EXISTS Sedes;
 
@@ -26,7 +29,7 @@ DROP SEQUENCE IF EXISTS secuencia_pedidos;
 DROP SEQUENCE IF EXISTS secuencia_categorias;
 DROP SEQUENCE IF EXISTS secuencia_clientes;
 DROP SEQUENCE IF EXISTS secuencia_trabajadores;
-
+DROP SEQUENCE IF EXISTS secuencia_pagos;
 
 
 DROP TRIGGER IF EXISTS tr_codificar_producto ON Productos;
@@ -35,13 +38,16 @@ DROP TRIGGER IF EXISTS tr_codificar_pedido ON Pedidos;
 DROP TRIGGER IF EXISTS tr_codificar_categoria ON Categorias;
 DROP TRIGGER IF EXISTS tr_ingreso_trabajador ON Trabajadores;
 DROP TRIGGER IF EXISTS tr_codificar_trabajador ON Trabajadores;
-DROP TRIGGER IF EXISTS tr_codificar_cliente ON Clientes;
+DROP TRIGGER IF EXISTS tr_codificar_cliente ON Clientes
+DROP TRIGGER IF EXISTS tr_codificar_pago ON Pagos;
+
 
 DROP FUNCTION IF EXISTS codificar_categoria;
 DROP FUNCTION IF EXISTS codificar_pedido;
 DROP FUNCTION IF EXISTS codificar_producto;
 DROP FUNCTION IF EXISTS codificar_cliente;
 DROP FUNCTION IF EXISTS codificar_sede;
+DROP FUNCTION IF EXISTS codificar_pago;
 DROP FUNCTION IF EXISTS insertar_trabajador;
 
 
@@ -52,6 +58,7 @@ CREATE SEQUENCE secuencia_pedidos;
 CREATE SEQUENCE secuencia_categorias;
 CREATE SEQUENCE secuencia_trabajadores;
 CREATE SEQUENCE secuencia_clientes;
+CREATE SEQUENCE secuencia_pagos;
 
 
 CREATE TABLE Clientes(
@@ -68,7 +75,7 @@ CREATE TABLE Clientes(
 	CONSTRAINT pk_cliente PRIMARY KEY(cliente_id)
 );
 
-CREATE TABLE Tarjeta(
+CREATE TABLE Tarjetas(
 	tarjeta_numero			   VARCHAR(30),
 	tarjeta_cvc				   VARCHAR(3),
 	tarjeta_vencimiento		   DATE,
@@ -164,12 +171,53 @@ CREATE TABLE Pedido_contiene_productos(
 		REFERENCES Productos(producto_codigo) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
+CREATE TABLE Pagos(
+	pago_numero_transaccion	   INT,
+	pago_fecha				   DATE,
+	pago_valor				   INT,
+	pago_cuotas				   INT,
+	pedido_id				   INT,
+	tarjeta_numero			   VARCHAR(20),               
+	
+	CONSTRAINT pk_pago	PRIMARY KEY(pago_numero_transaccion),
+	
+	CONSTRAINT fk_pago_pedido FOREIGN KEY(pedido_id)
+		REFERENCES Pedidos(pedido_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+		
+	CONSTRAINT fk_pago_tarjeta FOREIGN KEY(tarjeta_numero)
+		REFERENCES Tarjetas(tarjeta_numero) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+
 -- ************************************************************************************
 
 -- ************************PROCEDIMIENTOS ALMACENADOS**********************************
 
 
 -- ************************************************************************************
+
+
+
+
+CREATE FUNCTION codificar_pago() RETURNS TRIGGER AS $$
+DECLARE
+BEGIN
+	NEW.pago_numero_transaccion := NEXTVAL('secuencia_pagos');
+	NEW.pago_fecha := current_date ;
+	RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_codificar_pago BEFORE INSERT 
+ON Pagos FOR EACH ROW 
+EXECUTE PROCEDURE codificar_pago();
+
+
+
+-- ************************************************************************************
+
+
+
 
 CREATE FUNCTION codificar_cliente() RETURNS TRIGGER AS $$
 DECLARE
@@ -285,9 +333,17 @@ INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedid
 INSERT INTO Trabajadores(trabajador_documento,sede_id,trabajador_nombre,trabajador_apellido,trabajador_celular,trabajador_foto,trabajador_cargo,trabajador_direccion,trabajador_password)
  VALUES('13063664','1','Luis','Pascumal','3178145209','trabajador.jpg','ADMIN','Calle 7','3031999');
 
+INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (1111111111,456,'20-06-2021',0,1);
+
+INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (2222222222,482,'20-06-2022',0,1);
+
+
+INSERT INTO Pagos (pago_valor,pago_cuotas,pedido_id,tarjeta_numero) VALUES (300,5,1,1111111111);
+INSERT INTO Pagos (pago_valor,pago_cuotas,pedido_id,tarjeta_numero) VALUES (300,1,1,2222222222);
+
+
 
 --FACTURAS:
 
 CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, SUM(pedido_cp_precio) AS costo_pedido FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
-
-
+CREATE VIEW PAGO_FACTURAS AS (SELECT pedido_id,pago_numero_transaccion,tarjeta_numero,pago_fecha,pago_valor FROM Pagos GROUP BY pedido_id,pago_numero_transaccion);

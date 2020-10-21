@@ -1,12 +1,12 @@
 const Trabajador = require('../models/Trabajador');
 
 async function getTrabajador(req, res) {
-    const { trabajador_documento } = req.params;
+    const { trabajador_id } = req.params;
     try {
         let getTrabajador = await Trabajador.findOne({
 
             where: {
-                trabajador_documento
+                trabajador_id
             }
         })
 
@@ -77,11 +77,11 @@ async function createTrabajador(req, res) {
 }
 
 async function stateTrabajador(req, res) {
-    const { trabajador_documento } = req.params;
+    const { trabajador_id } = req.params;
     const trabajadores = await Trabajador.findAll({
         attributes: ['trabajador_id', 'trabajador_estado'],
         where: {
-            trabajador_documento
+            trabajador_id
         }
     });
     try {
