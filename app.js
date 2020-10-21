@@ -13,7 +13,6 @@ const rutasSede = require('./routes/Sede')
 app.use(cors());
 app.use(express.json())
 app.use(morgan('dev'))
-a
 
 
 //Rutas cliente
