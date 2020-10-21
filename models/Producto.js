@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../config/db')
 
-const Cliente = db.define("productos",{
+const Producto = db.define("productos",{
     producto_codigo  :{
         type: Sequelize.INTEGER,
         primaryKey:true,
@@ -57,4 +57,4 @@ const Cliente = db.define("productos",{
     timestamps : false
 });
 
-module.exports = Cliente;
+module.exports = Producto;
