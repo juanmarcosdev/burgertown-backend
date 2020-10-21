@@ -1,23 +1,28 @@
 const Sequelize = require('sequelize')
 const db = require('../config/db')
 
-const Categoria = db.define('categorias',{
-    categoria_id:{
+const Sede= db.define('sedes',{
+    sede_id:{
         type: Sequelize.INTEGER,
         primaryKey:true,
     },
 
-    categoria_nombre:{
+    sede_nombre:{
         type: Sequelize.CHAR,
         allowNull: false
 
     },
-    categoria_descripcion:{
+    sede_direccion:{
+        type: Sequelize.CHAR,
+        allowNull: false
+    },
+    sede_ciudad:{
         type: Sequelize.CHAR,
         allowNull: false
     },
 
-    categoria_estado : {
+
+    sede_estado : {
         type: Sequelize.INTEGER,
         default: 0
     }
@@ -29,4 +34,4 @@ const Categoria = db.define('categorias',{
 
 
 
-module.exports = Categoria;
+module.exports = Sede;

@@ -5,8 +5,8 @@ const morgan = require('morgan');
 const rutasCliente = require('./routes/Cliente')
 const rutasTrabajador = require('./routes/Trabajador')
 const rutasProducto = require('./routes/Producto')
-const rutasTrabajador = require('./routes/Categoria')
-
+const rutasCategoria = require('./routes/Categoria')
+const rutasSede = require('./routes/Sede')
 //Rutas importe
 
 //Middlewares
@@ -20,7 +20,9 @@ app.use('/Cliente',rutasCliente);
 app.use('/Trabajador',rutasTrabajador);
 //Rutas producto
 app.use('/Producto',rutasProducto);
-//Rutas trabajador
+//Rutas categoria
 app.use('/Categoria',rutasCategoria);
+//Rutas sede
+app.use('/Sede',rutasSede);
 
 module.exports = app;

@@ -42,7 +42,7 @@ async function createCategoria(req, res) {
 
     try {
         let newCategoria = await Categoria.create({
-            categoria_documento,
+            categoria_id,
             categoria_nombre,
             categoria_descripcion
         }, {

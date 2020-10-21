@@ -8,8 +8,8 @@ router.post('/Create',createCategoria);
 router.get('/Get',getCategorias);
 
 //    /api/:Categoria_documento
-router.get('/:categoria_documento',getCategoria);
-router.put('/:categoria_documento',stateCategoria);
-router.put('/Edit/:categoria_documento',editCategoria);
+router.get('/:categoria_id',getCategoria);
+router.put('/:categoria_id',stateCategoria);
+router.put('/Edit/:categoria_id',editCategoria);
 
 module.exports = router;

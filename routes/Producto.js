@@ -10,6 +10,6 @@ router.get('/Get',getProductos);
 //    /api/:producto_codigo
 router.get('/:producto_codigo',getProducto);
 router.put('/:producto_codigo',stateProducto);
-router.put('/Edit/:producto_codigor',editProducto);
+router.put('/Edit/:producto_codigo',editProducto);
 
 module.exports = router;
