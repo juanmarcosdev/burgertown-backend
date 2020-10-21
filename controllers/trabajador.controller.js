@@ -1,4 +1,5 @@
 const Trabajador = require('../models/Trabajador');
+const Encriptacion = require('../middleware/Encriptacion')
 
 async function getTrabajador(req, res) {
     const { trabajador_id } = req.params;
@@ -39,7 +40,7 @@ async function getTrabajadores(req, res) {
 
 async function createTrabajador(req, res) {
     const { trabajador_documento, trabajador_nombre, trabajador_apellido, trabajador_celular, trabajador_foto, trabajador_contratacion, trabajador_cargo, trabajador_direccion, trabajador_password } = req.body
-
+    const bcryptPassword = await Encriptacion.Encriptar(trabajador_password);
     try {
         let newTrabajador = await Trabajador.create({
             trabajador_documento,
@@ -50,7 +51,7 @@ async function createTrabajador(req, res) {
             trabajador_contratacion,
             trabajador_cargo,
             trabajador_direccion,
-            trabajador_password
+            trabajador_password: bcryptPassword
         }, {
             fields: ['trabajador_documento', 'trabajador_nombre', 'trabajador_apellido', 'trabajador_celular', 'trabajador_foto', 'trabajador_contratacion', 'trabajador_cargo', 'trabajador_direccion', 'trabajador_password']
         });

@@ -1,4 +1,5 @@
 const Cliente = require('../models/Cliente');
+const Encriptacion = require('../middleware/Encriptacion')
 
 async function getCliente(req, res) {
     const { cliente_id } = req.params
@@ -40,7 +41,7 @@ async function getClientes(req, res) {
 async function createCliente(req, res) {
     //console.log(req.body);
     const { cliente_celular, cliente_nombre, cliente_apellido, cliente_documento, cliente_direccion, cliente_fecha_nacimiento, cliente_password } = req.body
-
+    const bcryptPassword = await Encriptacion.Encriptar(cliente_password)
     try {
         let newCliente = await Cliente.create({
             cliente_celular,
@@ -49,7 +50,7 @@ async function createCliente(req, res) {
             cliente_documento,
             cliente_direccion,
             cliente_fecha_nacimiento,
-            cliente_password
+            cliente_password:bcryptPassword
         }, {
             fields: ['cliente_celular', 'cliente_nombre', 'cliente_apellido', 'cliente_documento', 'cliente_direccion', 'cliente_fecha_nacimiento', 'cliente_password']
         });
@@ -65,7 +66,7 @@ async function createCliente(req, res) {
     } catch (error) {
         res.status(500).json({
             meesage: 'Error al ingresar el cliente',
-            data: {}
+            data: error
         })
             ;
 
