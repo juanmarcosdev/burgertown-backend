@@ -45,6 +45,9 @@
      "producto_iva": 7,
      "categoria_id": 4
     }  
+ </code>
+ 
+ <code>   
 {
      "producto_nombre": "pizza vikinga",
      "producto_descripcion": "variedad de carnes",
