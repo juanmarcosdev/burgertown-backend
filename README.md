@@ -35,16 +35,19 @@
 
 <code>
 {
-     "producto_nombre": "pizza vegetariana",
-     "producto_descripcion": "variedad de vegetales",
-     "producto_imagen": "jpg",
+     
+     "producto_nombre": "Pizza vegetariana",
+     "producto_descripcion": "Variedad de vegetales",
+     "producto_imagen": "pizza.jpg",
      "producto_existencias": 10,
      "producto_precio"  : 15000,
      "producto_descuento" : 10,
      "producto_iva": 7,
-     "producto_categoria": 1
+     "categoria_id": 4
+    }  
+ </code>
  
-    } 
+ <code>   
 {
      "producto_nombre": "pizza vikinga",
      "producto_descripcion": "variedad de carnes",
@@ -56,6 +59,29 @@
      "categoria_id": 1
     }  
 
+</code>
+
+## Valores para una sede:
+<code> 
+{
+
+     "sede_nombre": "Sede Norte",
+     "sede_direccion": "Chiminangos ",
+     "sede_ciudad": "Cali"
+ 
+
+    }  
+</code>
+
+## Valores para una categoria:
+<code>
+{
+	
+	"categoria_nombre"		:   "Jugos",
+	"categoria_descripcion" : "variedad de jugos naturales"
+	
+ 
+    }  
 </code>
 
 ## Estructuras para los endpoints:
