@@ -32,7 +32,6 @@
 </code>
 
 ## Valores para un producto:
-
 <code>
 {
      "producto_codigo" : 4040,
@@ -45,7 +44,29 @@
      "producto_iva": 7
  
     }  
+</code>
 
+## Valores para una sede:
+<code> 
+{
+
+     "sede_nombre": "Sede Norte",
+     "sede_direccion": "Chiminangos ",
+     "sede_ciudad": "Cali"
+ 
+
+    }  
+</code>
+
+## Valores para una categoria:
+<code>
+{
+	
+	"categoria_nombre"		:   "Jugos",
+	"categoria_descripcion" : "variedad de jugos naturales"
+	
+ 
+    }  
 </code>
 
 ## Estructuras para los endpoints:
