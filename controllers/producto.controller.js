@@ -1,5 +1,7 @@
 const Producto = require('../models/Producto');
 
+//._.
+
 //obtener un producto 
 async function getProducto(req, res) {
     const { producto_codigo } = req.params
