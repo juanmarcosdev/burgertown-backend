@@ -8,8 +8,8 @@ router.post('/Create',createCliente);
 router.get('/Get',getClientes);
 
 //    /api/:cliente_celular
-router.get('/:cliente_celular',getCliente);
+router.get('/:cliente_id',getCliente);
 router.put('/:cliente_id',stateCliente);
-router.put('/Edit/:cliente_celular',editCliente);
+router.put('/Edit/:cliente_id',editCliente);
 
 module.exports = router;
