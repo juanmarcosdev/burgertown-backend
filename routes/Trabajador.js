@@ -9,7 +9,7 @@ router.get('/Get',getTrabajadores);
 
 //    /api/:Trabajador_documento
 router.get('/:trabajador_documento',getTrabajador);
-router.put('/:trabajador_documento',stateTrabajador);
+router.put('/:trabajador_id',stateTrabajador);
 router.put('/Edit/:trabajador_documento',editTrabajador);
 
 module.exports = router;

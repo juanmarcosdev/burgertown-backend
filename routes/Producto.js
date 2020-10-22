@@ -1,6 +1,6 @@
 const {Router} = require('express')
 const router = Router();
-const {createProducto,getProductos,getProducto, stateProducto, editProducto} = require('../controllers/producto.controller')
+const {createProducto,getProductos,getProducto, stateProducto, editProducto, getProductosCategoria} = require('../controllers/producto.controller')
 
 
 //    /api/Producto...
@@ -11,5 +11,6 @@ router.get('/Get',getProductos);
 router.get('/:producto_codigo',getProducto);
 router.put('/:producto_codigo',stateProducto);
 router.put('/Edit/:producto_codigo',editProducto);
+router.get('/Categoria/:categoria_id',getProductosCategoria)//Productos que pertenecen a una categoria
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const Producto = require('../models/Producto');
+const Categoria = require('../models/Categoria')
 
-//._.
+
 
 //obtener un producto 
 async function getProducto(req, res) {
@@ -27,6 +28,22 @@ async function getProducto(req, res) {
 
 }
 
+async function getProductosCategoria(req, res) {
+    const {categoria_id} = req.params
+    const productos = await Producto.findAll({
+        where:{
+            categoria_id
+        }
+    })
+    if (productos.length > 0) {
+        res.json(productos)
+    }
+    else{
+        res.json({message: 'No hay productos en esta categoria o no existe la categoria'})
+    }
+
+}
+
 //Obtener productos 
 async function getProductos(req, res) {
 
@@ -44,7 +61,7 @@ async function getProductos(req, res) {
 
 //Crear producto 
 async function createProducto(req, res) {
-    //console.log(req.body);
+
     const { producto_codigo, producto_nombre, producto_descripcion, producto_imagen, producto_existencias, producto_precio, producto_descuento, producto_iva, producto_estado, categoria_id } = req.body
 
     try {
@@ -60,7 +77,7 @@ async function createProducto(req, res) {
             producto_estado,
             categoria_id
         }, {
-            fields: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen',' producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id']
+            fields: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen', ' producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id']
         });
 
         if (newProducto) {
@@ -74,7 +91,7 @@ async function createProducto(req, res) {
     } catch (error) {
         res.status(500).json({
             meesage: 'Error al ingresar el producto',
-            data: {}
+            data: { error }
         })
             ;
 
@@ -99,7 +116,7 @@ async function stateProducto(req, res) {
                 console.log(producto.producto_estado);
                 nuevoestado = producto.producto_estado == 0 ? 1 : 0;
                 await producto.update({
-                    producto_estado : nuevoestado
+                    producto_estado: nuevoestado
                 });
 
             })
@@ -123,10 +140,10 @@ async function stateProducto(req, res) {
 // Editar producto
 async function editProducto(req, res) {
     const { producto_codigo } = req.params;
-    const { producto_nombre, producto_descripcion, producto_imagen, producto_existencias, producto_precio, producto_descuento, producto_iva, producto_estado, categoria_id  } = req.body;
+    const { producto_nombre, producto_descripcion, producto_imagen, producto_existencias, producto_precio, producto_descuento, producto_iva, producto_estado, categoria_id } = req.body;
 
     const productos = await Producto.findAll({
-        attributes: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen',' producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id'],
+        attributes: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen', ' producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id'],
 
         where: {
             producto_codigo
@@ -135,7 +152,7 @@ async function editProducto(req, res) {
     })
 
     if (productos.length > 0) {
-       productos.forEach(async producto => {
+        productos.forEach(async producto => {
             await producto.update({
                 producto_nombre,
                 producto_descripcion,
@@ -163,3 +180,4 @@ exports.getProductos = getProductos;
 exports.getProducto = getProducto;
 exports.stateProducto = stateProducto;
 exports.editProducto = editProducto;
+exports.getProductosCategoria = getProductosCategoria;

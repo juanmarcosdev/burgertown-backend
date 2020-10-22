@@ -9,7 +9,7 @@ router.get('/Get',getClientes);
 
 //    /api/:cliente_celular
 router.get('/:cliente_celular',getCliente);
-router.put('/:cliente_celular',stateCliente);
+router.put('/:cliente_id',stateCliente);
 router.put('/Edit/:cliente_celular',editCliente);
 
 module.exports = router;

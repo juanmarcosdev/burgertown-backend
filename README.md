@@ -35,15 +35,25 @@
 
 <code>
 {
-     "producto_codigo" : 4040,
      "producto_nombre": "pizza vegetariana",
      "producto_descripcion": "variedad de vegetales",
      "producto_imagen": "jpg",
      "producto_existencias": 10,
      "producto_precio"  : 15000,
      "producto_descuento" : 10,
-     "producto_iva": 7
+     "producto_iva": 7,
+     "producto_categoria": 1
  
+    } 
+{
+     "producto_nombre": "pizza vikinga",
+     "producto_descripcion": "variedad de carnes",
+     "producto_imagen": "vikinga.jpg",
+     "producto_existencias": 10,
+     "producto_precio"  : 20000,
+     "producto_descuento" : 10,
+     "producto_iva": 8,
+     "categoria_id": 1
     }  
 
 </code>
