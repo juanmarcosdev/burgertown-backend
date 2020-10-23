@@ -1,12 +1,3 @@
-
--- POSTGRESQL VERSION
--- PostgreSQL 11.2 - 64-bits
---
--- POSTGIS VERSION
--- PostGIS 2.5
--- ***********************************************************************************
-
-
 DROP VIEW IF EXISTS Facturas;
 DROP VIEW IF EXISTS Pago_Facturas;
 
@@ -102,7 +93,7 @@ CREATE TABLE Trabajadores(
 	trabajador_nombre   	   VARCHAR(20) NOT NULL,
 	trabajador_apellido   	   VARCHAR(20) NOT NULL,
 	trabajador_celular		   VARCHAR(20) NOT NULL,
-	trabajador_foto			   VARCHAR(20) NOT NULL,
+	trabajador_foto			   VARCHAR(200) NOT NULL,
 	trabajador_contratacion    DATE,
 	trabajador_cargo		   VARCHAR(30) NOT NULL,
 	trabajador_direccion       VARCHAR(20) NOT NULL,
