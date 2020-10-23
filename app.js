@@ -10,7 +10,8 @@ const rutasSede = require('./routes/Sede')
 //Rutas importe
 
 //Middlewares
-app.use(cors());
+// app.use(cors());
+app.options('*', cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
