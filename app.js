@@ -15,6 +15,7 @@ app.use(express.json())
 app.use(morgan('dev'))
 
 
+
 //Rutas cliente
 app.use('/Cliente',rutasCliente);
 //Rutas trabajador
