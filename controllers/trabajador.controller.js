@@ -113,14 +113,14 @@ async function stateTrabajador(req, res) {
 }
 
 async function editTrabajador(req, res) {
-    const { trabajador_documento } = req.params;
+    const { trabajador_id } = req.params;
     const { trabajador_nombre, trabajador_apellido, trabajador_celular, trabajador_foto, trabajador_contratacion, trabajador_cargo, trabajador_direccion, trabajador_password } = req.body;
 
     const Trabajadores = await Trabajador.findAll({
         attributes: ['trabajador_id', 'trabajador_nombre', 'trabajador_apellido', 'trabajador_celular', 'trabajador_foto', 'trabajador_contratacion', 'trabajador_cargo', 'trabajador_direccion', 'trabajador_password'],
 
         where: {
-            trabajador_documento
+            trabajador_id
         },
 
     })
