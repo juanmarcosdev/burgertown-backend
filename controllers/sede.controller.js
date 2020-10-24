@@ -91,7 +91,7 @@ async function stateSede(req, res) {
 
             return res.json({
                 meesage: 'Sede deshabilitada/habilitada satisfactoriamente',
-                data: Sedes
+                data: sedes
             })
 
         }

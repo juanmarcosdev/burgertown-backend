@@ -90,7 +90,7 @@ async function stateCategoria(req, res) {
 
             return res.json({
                 meesage: 'Categoria deshabilitada/habilitada satisfactoriamente',
-                data: Categorias
+                data: categorias
             })
 
         }
