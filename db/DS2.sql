@@ -29,7 +29,7 @@ DROP TRIGGER IF EXISTS tr_codificar_pedido ON Pedidos;
 DROP TRIGGER IF EXISTS tr_codificar_categoria ON Categorias;
 DROP TRIGGER IF EXISTS tr_ingreso_trabajador ON Trabajadores;
 DROP TRIGGER IF EXISTS tr_codificar_trabajador ON Trabajadores;
-DROP TRIGGER IF EXISTS tr_codificar_cliente ON Clientes
+DROP TRIGGER IF EXISTS tr_codificar_cliente ON Clientes;
 DROP TRIGGER IF EXISTS tr_codificar_pago ON Pagos;
 
 
