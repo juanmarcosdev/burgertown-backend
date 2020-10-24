@@ -3,7 +3,6 @@ const Encriptacion = require("../middleware/Encriptacion");
 const jwt = require("jsonwebtoken");
 const { jwtGeneratorCliente } = require("../utils/jwtGenerator");
 
-
 async function getCliente(req, res) {
   const { cliente_id } = req.params;
   try {
@@ -165,7 +164,7 @@ async function loginCliente(req, res) {
 
   let getCliente = await Cliente.findOne({
     where: {
-      cliente_celular
+      cliente_celular,
     },
   });
 
@@ -176,17 +175,27 @@ async function loginCliente(req, res) {
         getCliente.cliente_password
       );
 
-      const token = await jwtGeneratorCliente(cliente_celular);
-
-      return res.json({ 
-          message: "login exitoso" ,
-          token
+      if (compararContraseña) {
+        const token = await jwtGeneratorCliente(cliente_celular);
+        return res.json({
+          message: "login exitoso",
+          token,
         });
+      }
+      else {
+        return res.json({
+          message: 'contraseña incorrecta'
+        })
+      }
     } catch (error) {
       res.json({
         message: "Error",
       });
     }
+  } else {
+    return res.json({
+      meesage: "Este cliente no esta inscrito",
+    });
   }
 }
 

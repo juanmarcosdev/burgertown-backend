@@ -3,7 +3,6 @@ const Encriptacion = require("../middleware/Encriptacion");
 const jwt = require("jsonwebtoken");
 const { jwtGeneratorTrabajador } = require("../utils/jwtGenerator");
 
-
 async function getTrabajador(req, res) {
   const { trabajador_id } = req.params;
   try {
@@ -186,17 +185,26 @@ async function loginTrabajador(req, res) {
         getTrabajador.cliente_password
       );
 
-      const token = await jwtGeneratorTrabajador(trabajador_documento);
-
-      return res.json({
-        message: "login exitoso",
-        token,
-      });
+      if (compararContraseña) {
+        const token = await jwtGeneratorTrabajador(trabajador_documento);
+        return res.json({
+          message: "login exitoso",
+          token,
+        });
+      } else {
+        return res.json({
+          message: "contraseña incorrecta",
+        });
+      }
     } catch (error) {
       res.json({
         message: "Error",
       });
     }
+  } else {
+    return res.json({
+      meesage: "Este Trabajador no esta inscrito",
+    });
   }
 }
 
