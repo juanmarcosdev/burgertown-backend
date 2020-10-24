@@ -180,9 +180,7 @@ async function loginTrabajador(req, res) {
 
   if (getTrabajador) {
     try {
-      const compararContraseña = await Encriptacion.Comparar(
-        trabajador_password,
-        getTrabajador.cliente_password
+      const compararContraseña = await Encriptacion.Comparar(trabajador_password,getTrabajador.trabajador_password
       );
 
       if (compararContraseña) {
@@ -198,7 +196,7 @@ async function loginTrabajador(req, res) {
       }
     } catch (error) {
       res.json({
-        message: "Error",
+        message:'Trabajdor no registrado'
       });
     }
   } else {

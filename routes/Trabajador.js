@@ -5,13 +5,13 @@ const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
 
 
 //    /api/Trabajador...
-router.post('/Create',createTrabajador);
-router.get('/Get',getTrabajadores);
+router.post('/Create',autorizacionTrabajador,createTrabajador);
+router.get('/Get',autorizacionTrabajador,getTrabajadores);
 
 //    /api/:Trabajador_documento
-router.get('/:trabajador_id',getTrabajador);
-router.put('/:trabajador_id',stateTrabajador);
-router.put('/Edit/:trabajador_id',editTrabajador);
-router.get('/Login/:trabajador_documento',loginTrabajador);
+router.get('/:trabajador_id',autorizacionTrabajador,getTrabajador);
+router.put('/:trabajador_id',autorizacionTrabajador,stateTrabajador);
+router.put('/Edit/:trabajador_id',autorizacionTrabajador,editTrabajador);
+router.get('/Login/:trabajador_documento',autorizacionTrabajador,loginTrabajador);
 
 module.exports = router;
