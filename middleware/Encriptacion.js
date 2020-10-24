@@ -21,4 +21,13 @@ async function Encriptar(password) {
 
 }
 
+async function Comparar(password,comparacion){
+     
+    const resultado = await bcrypt.compare(password,comparacion)
+
+    return resultado;
+
+}
+
 exports.Encriptar = Encriptar;
+exports.Comparar = Comparar;
