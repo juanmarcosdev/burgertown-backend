@@ -100,3 +100,11 @@
 
 ### Cambiar estado de un registro de una tabla(PUT):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/:registro_id
+
+###### Comandos para reestablecer DB en Heroku
+<code>
+	heroku pg:psql -a burgertown-backend
+	DROP SCHEMA public CASCADE;
+	CREATE SCHEMA public;
+	cat DS2.sql | heroku pg:psql -a burgertown-backend
+</code>

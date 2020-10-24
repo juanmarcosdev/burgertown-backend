@@ -1,12 +1,3 @@
-
--- POSTGRESQL VERSION
--- PostgreSQL 11.2 - 64-bits
---
--- POSTGIS VERSION
--- PostGIS 2.5
--- ***********************************************************************************
-
-
 DROP VIEW IF EXISTS Facturas;
 DROP VIEW IF EXISTS Pago_Facturas;
 
