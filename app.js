@@ -6,13 +6,15 @@ const rutasCliente = require('./routes/Cliente')
 const rutasTrabajador = require('./routes/Trabajador')
 const rutasProducto = require('./routes/Producto')
 const rutasCategoria = require('./routes/Categoria')
-const rutasSede = require('./routes/Sede')
+const rutasSede = require('./routes/Sede');
+const { urlencoded } = require('express');
 //Rutas importe
 
 //Middlewares
 app.use(cors());
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(express.urlencoded({extended:true}))
 
 
 
