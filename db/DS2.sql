@@ -124,7 +124,7 @@ CREATE TABLE Productos(
 	producto_precio			   INT,
 	producto_descuento         INT,
 	producto_iva			   INT,
-	producto_estado			   INT,
+	producto_estado			   INT DEFAULT 1,
 	categoria_id			   INT DEFAULT 1,
 	
 	CONSTRAINT pk_producto PRIMARY KEY (producto_codigo),
