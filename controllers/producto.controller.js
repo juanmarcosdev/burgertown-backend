@@ -62,7 +62,7 @@ async function getProductos(req, res) {
 //Crear producto 
 async function createProducto(req, res) {
 
-    const { producto_codigo, producto_nombre, producto_descripcion, producto_imagen, producto_existencias, producto_precio, producto_descuento, producto_iva, producto_estado, categoria_id } = req.body
+    const { producto_codigo, producto_nombre, producto_descripcion, producto_imagen, producto_existencias, producto_precio, producto_descuento, producto_iva, categoria_id } = req.body
 
     try {
         let newProducto = await Producto.create({
@@ -74,10 +74,9 @@ async function createProducto(req, res) {
             producto_precio,
             producto_descuento,
             producto_iva,
-            producto_estado,
             categoria_id
         }, {
-            fields: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen', ' producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id']
+            fields: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen', 'producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'categoria_id']
         });
 
         if (newProducto) {
