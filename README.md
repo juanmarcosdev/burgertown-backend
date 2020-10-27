@@ -100,6 +100,13 @@
 ### Cambiar estado de un registro de una tabla(PUT):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/:registro_id
 
+### Obtener los id y nombres de las categorias existentes(GET):
+-/Categoria/Get/Cliente
+
+### Obtener los productos que pertenecen a una categoria existente(GET):
+-/Producto/Categoria/:categoria_id
+
+
 ###### Comandos para reestablecer DB en Heroku
 <code>
 	heroku pg:psql -a burgertown-backend
