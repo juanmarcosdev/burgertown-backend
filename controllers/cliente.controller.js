@@ -180,6 +180,8 @@ async function loginCliente(req, res) {
         return res.json({
           message: "login exitoso",
           token,
+          typeUser: 1
+          
         });
       }
       else {

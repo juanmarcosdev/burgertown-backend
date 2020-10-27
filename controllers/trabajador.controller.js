@@ -188,6 +188,7 @@ async function loginTrabajador(req, res) {
         return res.json({
           message: "login exitoso",
           token,
+          typeUser: 2
         });
       } else {
         return res.json({

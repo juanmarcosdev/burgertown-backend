@@ -135,9 +135,25 @@ async function editCategoria(req, res) {
 
 }
 
+async function getCategoriasCliente(req, res){
+    try {
+        const categorias = await Categoria.findAll({
+            attributes:['categoria_id','categoria_nombre']
+        })
+        return res.json({
+            data : categorias
+        })
+        
+    } catch (error) {
+        return res.json({
+            message: 'Error al obtener la informacion de las categorias'
+        })
+    }
+}
 
 exports.createCategoria = createCategoria;
 exports.getCategorias = getCategorias;
+exports.getCategoriasCliente = getCategoriasCliente;
 exports.getCategoria = getCategoria;
 exports.stateCategoria = stateCategoria;
 exports.editCategoria = editCategoria;

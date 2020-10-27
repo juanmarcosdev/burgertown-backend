@@ -4,6 +4,7 @@ const {llaveCliente } = require("../config/config");
 
 module.exports = async (req, res, next) => {
   try {
+    
     const jwToken = req.header("token");
     if (!jwToken) {
       return res.status(401).json("Acceso no autorizado");

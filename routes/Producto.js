@@ -13,6 +13,6 @@ router.get('/Get',autorizacionTrabajador,getProductos);
 router.get('/:producto_codigo',autorizacionTrabajador,getProducto);
 router.put('/:producto_codigo',autorizacionTrabajador,stateProducto);
 router.put('/Edit/:producto_codigo',autorizacionTrabajador,editProducto);
-router.get('/Categoria/:categoria_id',autorizacionCliente,getProductosCategoria)//Productos que pertenecen a una categoria
+router.get('/Categoria/:categoria_id',autorizacionCliente,getProductosCategoria);//Productos que pertenecen a una categoria
 
 module.exports = router;
