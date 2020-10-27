@@ -4,7 +4,7 @@ const {createCliente,getClientes,getCliente, stateCliente, editCliente, loginCli
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
 
 //    /api/Cliente...
-router.post('/Create',autorizacionTrabajador,createCliente);
+router.post('/Create',createCliente);
 router.get('/Get',autorizacionTrabajador,getClientes);
 
 //    /api/:cliente_celular
