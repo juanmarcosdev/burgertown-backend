@@ -100,10 +100,10 @@
 ### Cambiar estado de un registro de una tabla(PUT):
 -/(Trabajador-Cliente-Producto-Sede-Categoria)/:registro_id
 
-### Login para Cliente (GET):
+### Login para Cliente (PUT):
 -/Cliente/Login/:cliente_celular
 
-### Login para Trabajador (GET):
+### Login para Trabajador (PUT):
 -/Trabajador/Login/:trabajador_documento
 
 ### Obtener los id y nombres de las categorias existentes(GET):

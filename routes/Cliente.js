@@ -11,6 +11,6 @@ router.get('/Get',autorizacionTrabajador,getClientes);
 router.get('/:cliente_id',autorizacionTrabajador,getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
 router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
-router.get('/Login/:cliente_celular',loginCliente);
+router.put('/Login/:cliente_celular',loginCliente);
 
 module.exports = router;
