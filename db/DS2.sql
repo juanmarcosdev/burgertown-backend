@@ -306,8 +306,8 @@ EXECUTE PROCEDURE insertar_trabajador();
 
 INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Sede Costa','Carrera 1 # 5-30','Cali','07:00 AM', '08:00 PM');
 
-INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password)
-VALUES('3166891624','Cristian','Pascumal','1113696488','Carrera 4 # 7-10','30-03-1999','3031999c');
+INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password,cliente_foto)
+VALUES('3166891624','Humberto','Mora','1113696488','Carrera 4 # 7-10','30-03-1999','3031999c','http://ciencias.univalle.edu.co/images/imagenes/profesores/matematicas/humbertoMora.gif');
 
 INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Pizzas','Las pizzas de la sede costa');
 
@@ -326,7 +326,7 @@ INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedid
 INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (1,100,1,2);
 
 INSERT INTO Trabajadores(trabajador_documento,sede_id,trabajador_nombre,trabajador_apellido,trabajador_celular,trabajador_foto,trabajador_cargo,trabajador_direccion,trabajador_password)
- VALUES('13063664','1','Luis','Pascumal','3178145209','trabajador.jpg','ADMIN','Calle 7','3031999');
+ VALUES('13063664','1','Manuel','Chacon','3178145209','http://ciencias.univalle.edu.co/images/imagenes/profesores/fisica/Chacon.jpg','Admin','Calle 7','3031999');
 
 INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (1111111111,456,'20-06-2021',0,1);
 
