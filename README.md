@@ -43,7 +43,7 @@
      "producto_precio"  : 15000,
      "producto_descuento" : 10,
      "producto_iva": 7,
-     "categoria_id": 4
+     "categoria_id": 1
     }  
  </code>
  

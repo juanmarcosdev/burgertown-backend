@@ -16,11 +16,20 @@ const Sede= db.define('sedes',{
         type: Sequelize.CHAR,
         allowNull: false
     },
+
     sede_ciudad:{
         type: Sequelize.CHAR,
         allowNull: false
     },
 
+    sede_horario_apertura:{
+        type: Sequelize.TIME,
+       
+    },
+
+    sede_horario_cierre:{
+        type: Sequelize.TIME,  
+    },
 
     sede_estado : {
         type: Sequelize.INTEGER,

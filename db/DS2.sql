@@ -82,7 +82,10 @@ CREATE TABLE Sedes(
 	sede_nombre   		       VARCHAR(20) NOT NULL,
 	sede_direccion   	       VARCHAR(20) NOT NULL,
 	sede_ciudad				   VARCHAR(20) NOT NULL,
-	sede_estado				   INT DEFAULT 1,
+	sede_horario_apertura      TIME,
+    sede_horario_cierre        TIME,
+    sede_estado				   INT DEFAULT 1,
+    
 	
 	CONSTRAINT pk_sede PRIMARY KEY(sede_id)
 );
