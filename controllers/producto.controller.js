@@ -142,7 +142,7 @@ async function editProducto(req, res) {
     const { producto_nombre, producto_descripcion, producto_imagen, producto_existencias, producto_precio, producto_descuento, producto_iva, producto_estado, categoria_id } = req.body;
 
     const productos = await Producto.findAll({
-        attributes: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen', ' producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id'],
+        attributes: ['producto_codigo', 'producto_nombre', 'producto_descripcion', 'producto_imagen', 'producto_existencias', 'producto_precio', 'producto_descuento', 'producto_iva', 'producto_estado', 'categoria_id'],
 
         where: {
             producto_codigo
