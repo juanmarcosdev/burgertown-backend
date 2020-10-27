@@ -303,7 +303,7 @@ EXECUTE PROCEDURE insertar_trabajador();
 -- ************************************************************************************
 
 
-INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad) VALUES('Sede Costa','Carrera 1 # 5-30','Cali');
+INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Sede Costa','Carrera 1 # 5-30','Cali','07:00 AM', '08:00 PM');
 
 INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password)
 VALUES('3166891624','Cristian','Pascumal','1113696488','Carrera 4 # 7-10','30-03-1999','3031999c');
