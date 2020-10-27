@@ -28,7 +28,8 @@ async function getCategorias(req, res) {
     try {
         const Categorias = await Categoria.findAll();
         res.json({
-            data: Categorias
+            data: Categorias,
+            user: req.user
         })
 
     } catch (error) {
