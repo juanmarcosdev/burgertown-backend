@@ -62,6 +62,7 @@ CREATE TABLE Clientes(
 	cliente_fecha_nacimiento   DATE,
 	cliente_password  		   VARCHAR(256) NOT NULL,
 	cliente_estado			   INT DEFAULT 1,
+	cliente_foto			   VARCHAR(200),
 	
 	CONSTRAINT pk_cliente PRIMARY KEY(cliente_id)
 );
