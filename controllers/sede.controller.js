@@ -38,16 +38,18 @@ async function getSedes(req, res) {
 }
 
 async function createSede(req, res) {
-    const { sede_id, sede_nombre, sede_direccion, sede_ciudad } = req.body
+    const { sede_id, sede_nombre, sede_direccion, sede_ciudad, sede_horario_apertura,sede_horario_cierre } = req.body
 
     try {
         let newSede = await Sede.create({
             sede_id,
             sede_nombre,
             sede_direccion,
-            sede_ciudad
+            sede_ciudad,
+            sede_horario_apertura,
+            sede_horario_cierre
         }, {
-            fields: ['sede_id', 'sede_nombre', 'sede_direccion', 'sede_ciudad']
+            fields: ['sede_id', 'sede_nombre', 'sede_direccion', 'sede_ciudad','sede_horario_apertura','sede_horario_cierre']
         });
 
         if (newSede) {
@@ -108,10 +110,10 @@ async function stateSede(req, res) {
 
 async function editSede(req, res) {
     const { sede_id } = req.params;
-    const { sede_nombre, sede_direccion, sede_ciudad} = req.body;
+    const { sede_nombre, sede_direccion, sede_ciudad, sede_horario_apertura, sede_horario_cierre} = req.body;
 
     const Sedes = await Sede.findAll({
-        attributes: ['sede_id', 'sede_nombre', 'sede_direccion', 'sede_ciudad'],
+        attributes: ['sede_id', 'sede_nombre', 'sede_direccion', 'sede_ciudad','sede_horario_apertura','sede_horario_cierre'],
 
         where: {
             sede_id
@@ -124,7 +126,9 @@ async function editSede(req, res) {
             await Sede.update({
                 sede_nombre,
                 sede_direccion,
-                sede_ciudad
+                sede_ciudad,
+                sede_horario_apertura,
+                sede_horario_cierre
             });
 
         })

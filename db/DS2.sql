@@ -62,6 +62,7 @@ CREATE TABLE Clientes(
 	cliente_fecha_nacimiento   DATE,
 	cliente_password  		   VARCHAR(256) NOT NULL,
 	cliente_estado			   INT DEFAULT 1,
+	cliente_foto			   VARCHAR(200),
 	
 	CONSTRAINT pk_cliente PRIMARY KEY(cliente_id)
 );
@@ -82,7 +83,10 @@ CREATE TABLE Sedes(
 	sede_nombre   		       VARCHAR(20) NOT NULL,
 	sede_direccion   	       VARCHAR(20) NOT NULL,
 	sede_ciudad				   VARCHAR(20) NOT NULL,
-	sede_estado				   INT DEFAULT 1,
+	sede_horario_apertura      TIME,
+    sede_horario_cierre        TIME,
+    sede_estado				   INT DEFAULT 1,
+    
 	
 	CONSTRAINT pk_sede PRIMARY KEY(sede_id)
 );
@@ -124,7 +128,7 @@ CREATE TABLE Productos(
 	producto_precio			   INT,
 	producto_descuento         INT,
 	producto_iva			   INT,
-	producto_estado			   INT,
+	producto_estado			   INT DEFAULT 1,
 	categoria_id			   INT DEFAULT 1,
 	
 	CONSTRAINT pk_producto PRIMARY KEY (producto_codigo),
@@ -300,10 +304,10 @@ EXECUTE PROCEDURE insertar_trabajador();
 -- ************************************************************************************
 
 
-INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad) VALUES('Sede Costa','Carrera 1 # 5-30','Cali');
+INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Sede Costa','Carrera 1 # 5-30','Cali','07:00 AM', '08:00 PM');
 
-INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password)
-VALUES('3166891624','Cristian','Pascumal','1113696488','Carrera 4 # 7-10','30-03-1999','3031999c');
+INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password,cliente_foto)
+VALUES('3166891624','Humberto','Mora','1113696488','Carrera 4 # 7-10','30-03-1999','3031999c','http://ciencias.univalle.edu.co/images/imagenes/profesores/matematicas/humbertoMora.gif');
 
 INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Pizzas','Las pizzas de la sede costa');
 
@@ -322,7 +326,7 @@ INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedid
 INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (1,100,1,2);
 
 INSERT INTO Trabajadores(trabajador_documento,sede_id,trabajador_nombre,trabajador_apellido,trabajador_celular,trabajador_foto,trabajador_cargo,trabajador_direccion,trabajador_password)
- VALUES('13063664','1','Luis','Pascumal','3178145209','trabajador.jpg','ADMIN','Calle 7','3031999');
+ VALUES('13063664','1','Manuel','Chacon','3178145209','http://ciencias.univalle.edu.co/images/imagenes/profesores/fisica/Chacon.jpg','Admin','Calle 7','3031999');
 
 INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (1111111111,456,'20-06-2021',0,1);
 

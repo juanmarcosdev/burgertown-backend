@@ -53,6 +53,11 @@ const Trabajador = db.define('trabajadores',{
     trabajador_estado : {
         type: Sequelize.INTEGER,
         default: 0
+    },
+
+    sede_id : {
+        type : Sequelize.INTEGER,
+        allowNull: false
     }
     
 

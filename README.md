@@ -43,7 +43,7 @@
      "producto_precio"  : 15000,
      "producto_descuento" : 10,
      "producto_iva": 7,
-     "categoria_id": 4
+     "categoria_id": 1
     }  
  </code>
  
@@ -64,13 +64,12 @@
 ## Valores para una sede:
 <code> 
 {
-
-     "sede_nombre": "Sede Norte",
-     "sede_direccion": "Chiminangos ",
-     "sede_ciudad": "Cali"
- 
-
-    }  
+ "sede_nombre": "Sede Norte",
+ "sede_direccion": "Chiminangos ",
+ "sede_ciudad": "Cali",
+ "sede_horario_apertura": "09:00 AM",
+ "sede_horario_cierre": "05:00 PM"
+}
 </code>
 
 ## Valores para una categoria:

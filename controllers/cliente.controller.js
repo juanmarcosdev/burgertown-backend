@@ -41,6 +41,7 @@ async function createCliente(req, res) {
     cliente_direccion,
     cliente_fecha_nacimiento,
     cliente_password,
+    cliente_foto
   } = req.body;
   const bcryptPassword = await Encriptacion.Encriptar(cliente_password);
   try {
@@ -53,6 +54,7 @@ async function createCliente(req, res) {
         cliente_direccion,
         cliente_fecha_nacimiento,
         cliente_password: bcryptPassword,
+        cliente_foto
       },
       {
         fields: [
@@ -63,6 +65,7 @@ async function createCliente(req, res) {
           "cliente_direccion",
           "cliente_fecha_nacimiento",
           "cliente_password",
+          "cliente_foto"
         ],
       }
     );
@@ -121,6 +124,7 @@ async function editCliente(req, res) {
     cliente_direccion,
     cliente_fecha_nacimiento,
     cliente_password,
+    cliente_foto,
   } = req.body;
 
   const clientes = await Cliente.findAll({
@@ -133,6 +137,7 @@ async function editCliente(req, res) {
       "cliente_direccion",
       "cliente_fecha_nacimiento",
       "cliente_password",
+      "cliente_foto"
     ],
 
     where: {
@@ -149,6 +154,7 @@ async function editCliente(req, res) {
         cliente_direccion,
         cliente_fecha_nacimiento,
         cliente_password,
+        cliente_foto
       });
     });
   }

@@ -43,6 +43,7 @@ async function createTrabajador(req, res) {
     trabajador_cargo,
     trabajador_direccion,
     trabajador_password,
+    sede_id
   } = req.body;
   const bcryptPassword = await Encriptacion.Encriptar(trabajador_password);
   try {
@@ -57,6 +58,7 @@ async function createTrabajador(req, res) {
         trabajador_cargo,
         trabajador_direccion,
         trabajador_password: bcryptPassword,
+        sede_id
       },
       {
         fields: [
@@ -69,6 +71,7 @@ async function createTrabajador(req, res) {
           "trabajador_cargo",
           "trabajador_direccion",
           "trabajador_password",
+          "sede_id"
         ],
       }
     );
@@ -128,6 +131,7 @@ async function editTrabajador(req, res) {
     trabajador_cargo,
     trabajador_direccion,
     trabajador_password,
+    sede_id
   } = req.body;
 
   const Trabajadores = await Trabajador.findAll({
@@ -141,6 +145,7 @@ async function editTrabajador(req, res) {
       "trabajador_cargo",
       "trabajador_direccion",
       "trabajador_password",
+      "sede_id"
     ],
 
     where: {
@@ -159,6 +164,7 @@ async function editTrabajador(req, res) {
         trabajador_cargo,
         trabajador_direccion,
         trabajador_password,
+        sede_id
       });
     });
   }
