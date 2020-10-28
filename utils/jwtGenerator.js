@@ -3,14 +3,15 @@ const { llaveCliente, llaveTrabajador } = require('../config/config');
 
 
 
-function jwtGeneratorCliente (cliente_celular){
+async function jwtGeneratorCliente (cliente_celular){
     const payload = {
         Cliente: cliente_celular
     }
 
     try {
-        const token = jwt.sign(payload,llaveCliente,{expiresIn: 60*2})
+        const token = jwt.sign(payload,llaveCliente,{expiresIn: 60*5})
         return token
+
 
     } catch (error) {
 
@@ -23,13 +24,13 @@ function jwtGeneratorCliente (cliente_celular){
 
 }
 
-function jwtGeneratorTrabajador (trabajador_documento){
+async function jwtGeneratorTrabajador (trabajador_documento){
     const payload = {
         Trabajador: trabajador_documento
     }
 
     try {
-        const token = jwt.sign(payload,llaveTrabajador,{expiresIn: 60*2})
+        let token = await jwt.sign(payload,llaveTrabajador,{expiresIn: 60*30})
         return token;
         
     } catch (error) {
