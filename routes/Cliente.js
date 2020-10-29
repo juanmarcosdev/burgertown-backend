@@ -10,7 +10,7 @@ router.get('/Get',autorizacionTrabajador,getClientes);
 //    /api/:cliente_celular
 router.get('/:cliente_id',autorizacionTrabajador,getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
-router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
+router.put('/Edit/:cliente_id',editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
 
 module.exports = router;
