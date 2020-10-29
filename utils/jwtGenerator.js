@@ -9,7 +9,7 @@ async function jwtGeneratorCliente (cliente_celular){
     }
 
     try {
-        const token = jwt.sign(payload,llaveCliente,{expiresIn: 60*30})
+        const token = jwt.sign(payload,llaveCliente,{expiresIn: 60*60})
         return token
 
 
@@ -30,7 +30,7 @@ async function jwtGeneratorTrabajador (trabajador_documento){
     }
 
     try {
-        let token = await jwt.sign(payload,llaveTrabajador,{expiresIn: 60*30})
+        let token = await jwt.sign(payload,llaveTrabajador,{expiresIn: 60*60})
         return token;
         
     } catch (error) {

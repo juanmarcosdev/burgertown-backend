@@ -138,7 +138,7 @@ async function editCategoria(req, res) {
 async function getCategoriasCliente(req, res){
     try {
         const categorias = await Categoria.findAll({
-            attributes:['categoria_id','categoria_nombre']
+            attributes:['categoria_id','categoria_nombre','categoria_estado']
         })
         return res.json({
             data : categorias
