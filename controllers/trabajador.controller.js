@@ -156,7 +156,6 @@ async function editTrabajador(req, res) {
   if (Trabajadores.length > 0) {
     Trabajadores.forEach(async (Trabajador) => {
 
-      const newPassword = await Encriptacion.Encriptar(trabajador_password)
 
       await Trabajador.update({
         trabajador_nombre,
@@ -166,7 +165,6 @@ async function editTrabajador(req, res) {
         trabajador_contratacion,
         trabajador_cargo,
         trabajador_direccion,
-        trabajador_password : newPassword,
         sede_id
       });
     });
