@@ -147,14 +147,12 @@ async function editCliente(req, res) {
 
   if (clientes.length > 0) {
     clientes.forEach(async (cliente) => {
-      const newPassword = await Encriptacion.Encriptar(cliente_password);
       await cliente.update({
         cliente_nombre,
         cliente_apellido,
         cliente_documento,
         cliente_direccion,
         cliente_fecha_nacimiento,
-        cliente_password : newPassword,
         cliente_foto
       });
     });
