@@ -109,8 +109,8 @@
 ### Obtener los id y nombres de las categorias existentes(GET):
 -/Categoria/Get/Cliente
 
-### Obtener los productos que pertenecen a una categoria existente(GET):
--/Producto/Categoria/:categoria_id
+### Obtener menu de productos(GET):
+-/Producto/Menu/GEt
 
 
 ###### Comandos para reestablecer DB en Heroku

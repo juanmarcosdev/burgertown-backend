@@ -9,7 +9,7 @@ async function jwtGeneratorCliente (cliente_celular){
     }
 
     try {
-        const token = jwt.sign(payload,llaveCliente,{expiresIn: 60*5})
+        const token = jwt.sign(payload,llaveCliente,{expiresIn: 60*30})
         return token
 
 
