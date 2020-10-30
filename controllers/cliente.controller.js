@@ -41,7 +41,7 @@ async function createCliente(req, res) {
     cliente_direccion,
     cliente_fecha_nacimiento,
     cliente_password,
-    cliente_foto
+    cliente_foto,
   } = req.body;
   const bcryptPassword = await Encriptacion.Encriptar(cliente_password);
   try {
@@ -54,7 +54,7 @@ async function createCliente(req, res) {
         cliente_direccion,
         cliente_fecha_nacimiento,
         cliente_password: bcryptPassword,
-        cliente_foto
+        cliente_foto,
       },
       {
         fields: [
@@ -65,7 +65,7 @@ async function createCliente(req, res) {
           "cliente_direccion",
           "cliente_fecha_nacimiento",
           "cliente_password",
-          "cliente_foto"
+          "cliente_foto",
         ],
       }
     );
@@ -80,6 +80,7 @@ async function createCliente(req, res) {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       meesage: "Error al ingresar el cliente",
       data: error,
@@ -123,10 +124,13 @@ async function editCliente(req, res) {
     cliente_documento,
     cliente_direccion,
     cliente_fecha_nacimiento,
-    cliente_password,
     cliente_foto,
   } = req.body;
 
+  let { cliente_password } = req.body;
+  if (cliente_password) {
+    cliente_password = await Encriptacion.Encriptar(cliente_password);
+  }
   const clientes = await Cliente.findAll({
     attributes: [
       "cliente_id",
@@ -137,7 +141,7 @@ async function editCliente(req, res) {
       "cliente_direccion",
       "cliente_fecha_nacimiento",
       "cliente_password",
-      "cliente_foto"
+      "cliente_foto",
     ],
 
     where: {
@@ -153,7 +157,8 @@ async function editCliente(req, res) {
         cliente_documento,
         cliente_direccion,
         cliente_fecha_nacimiento,
-        cliente_foto
+        cliente_foto,
+        cliente_password,
       });
     });
   }
@@ -185,14 +190,12 @@ async function loginCliente(req, res) {
         return res.json({
           message: "login exitoso",
           token,
-          typeUser: 1
-          
+          typeUser: 1,
         });
-      }
-      else {
+      } else {
         return res.json({
-          message: 'contraseña incorrecta'
-        })
+          message: "contraseña incorrecta",
+        });
       }
     } catch (error) {
       res.json({

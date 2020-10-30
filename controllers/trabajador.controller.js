@@ -43,7 +43,7 @@ async function createTrabajador(req, res) {
     trabajador_cargo,
     trabajador_direccion,
     trabajador_password,
-    sede_id
+    sede_id,
   } = req.body;
   const bcryptPassword = await Encriptacion.Encriptar(trabajador_password);
   try {
@@ -58,7 +58,7 @@ async function createTrabajador(req, res) {
         trabajador_cargo,
         trabajador_direccion,
         trabajador_password: bcryptPassword,
-        sede_id
+        sede_id,
       },
       {
         fields: [
@@ -71,7 +71,7 @@ async function createTrabajador(req, res) {
           "trabajador_cargo",
           "trabajador_direccion",
           "trabajador_password",
-          "sede_id"
+          "sede_id",
         ],
       }
     );
@@ -86,6 +86,7 @@ async function createTrabajador(req, res) {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       meesage: "Error al ingresar el Trabajador",
       data: {},
@@ -130,9 +131,12 @@ async function editTrabajador(req, res) {
     trabajador_contratacion,
     trabajador_cargo,
     trabajador_direccion,
-    trabajador_password,
-    sede_id
+    sede_id,
   } = req.body;
+  let { cliente_password } = req.body;
+  if (trabajador_password) {
+    trabajador_password = await Encriptacion.Encriptar(trabajador_password);
+  }
 
   const Trabajadores = await Trabajador.findAll({
     attributes: [
@@ -145,7 +149,7 @@ async function editTrabajador(req, res) {
       "trabajador_cargo",
       "trabajador_direccion",
       "trabajador_password",
-      "sede_id"
+      "sede_id",
     ],
 
     where: {
@@ -155,8 +159,6 @@ async function editTrabajador(req, res) {
 
   if (Trabajadores.length > 0) {
     Trabajadores.forEach(async (Trabajador) => {
-
-
       await Trabajador.update({
         trabajador_nombre,
         trabajador_apellido,
@@ -165,7 +167,8 @@ async function editTrabajador(req, res) {
         trabajador_contratacion,
         trabajador_cargo,
         trabajador_direccion,
-        sede_id
+        trabajador_password,
+        sede_id,
       });
     });
   }
@@ -187,7 +190,9 @@ async function loginTrabajador(req, res) {
 
   if (getTrabajador) {
     try {
-      const compararContraseña = await Encriptacion.Comparar(trabajador_password,getTrabajador.trabajador_password
+      const compararContraseña = await Encriptacion.Comparar(
+        trabajador_password,
+        getTrabajador.trabajador_password
       );
 
       if (compararContraseña) {
@@ -195,7 +200,7 @@ async function loginTrabajador(req, res) {
         return res.json({
           message: "login exitoso",
           token,
-          typeUser: 2
+          typeUser: 2,
         });
       } else {
         return res.json({
@@ -204,7 +209,7 @@ async function loginTrabajador(req, res) {
       }
     } catch (error) {
       res.json({
-        message:'Trabajdor no registrado'
+        message: "Trabajdor no registrado",
       });
     }
   } else {
