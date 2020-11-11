@@ -8,7 +8,6 @@ const Tarjeta = db.define("tarjetas",{
         primaryKey:true,
 
     },
-
     tarjeta_cvc:{
         type: Sequelize.CHAR,
         allowNull: false
@@ -19,7 +18,7 @@ const Tarjeta = db.define("tarjetas",{
         allowNull: false
 
     },
-    tarjeta_fecha_vencimiento:{
+    tarjeta_vencimiento:{
         type: Sequelize.DATEONLY,
         allowNull: false
     },
@@ -38,7 +37,4 @@ const Tarjeta = db.define("tarjetas",{
     timestamps : false
 });
 
-Tarjeta.belongsTo(Cliente)
-
-
-module.exports = Producto;
+module.exports = Tarjeta;
