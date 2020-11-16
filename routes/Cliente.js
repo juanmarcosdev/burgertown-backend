@@ -13,7 +13,7 @@ router.post('/Tarjeta/Add',createTarjeta);
 //    /api/:cliente_celular
 router.get('/:cliente_id',autorizacionTrabajador,getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
-router.put('/Edit/:cliente_id',autorizacionCliente,editCliente);
+router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
 
 module.exports = router;
