@@ -247,7 +247,7 @@ BEGIN
 	FROM Pedidos 
 	WHERE pedido_id = NEW.pedido_id;
 
-	new_total := old_total+(NEW.pedido_cp_cantidad*NEW.pedido_cp_precio);
+	new_total := old_total + (NEW.pedido_cp_cantidad * NEW.pedido_cp_precio);
 
 	UPDATE Pedidos SET pedido_costo = new_total
 	WHERE pedido_id = NEW.pedido_id;
