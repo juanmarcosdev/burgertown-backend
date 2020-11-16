@@ -1,12 +1,11 @@
 DROP VIEW IF EXISTS Facturas;
 DROP VIEW IF EXISTS Pago_Facturas;
 
-
+DROP TABLE IF EXISTS Pagos;
 DROP TABLE IF EXISTS Pedido_contiene_productos;
 DROP TABLE IF EXISTS Pedidos;
 DROP TABLE IF EXISTS Productos;
 DROP TABLE IF EXISTS Categorias;
-DROP TABLE IF EXISTS Pagos;
 DROP TABLE IF EXISTS Trabajadores;
 DROP TABLE IF EXISTS Tarjetas;
 DROP TABLE IF EXISTS Clientes;
@@ -34,6 +33,8 @@ DROP TRIGGER IF EXISTS tr_codificar_trabajador ON Trabajadores;
 DROP TRIGGER IF EXISTS tr_codificar_cliente ON Clientes;
 DROP TRIGGER IF EXISTS tr_codificar_pago ON Pagos;
 DROP TRIGGER IF EXISTS tr_codificar_tarjeta ON Tarjetas;
+DROP TRIGGER IF EXISTS tr_agregar_productos_pedido ON pedido_contiene_productos;
+
 
 DROP FUNCTION IF EXISTS codificar_categoria;
 DROP FUNCTION IF EXISTS codificar_pedido;
@@ -43,9 +44,7 @@ DROP FUNCTION IF EXISTS codificar_sede;
 DROP FUNCTION IF EXISTS codificar_pago;
 DROP FUNCTION IF EXISTS codificar_tarjeta;
 DROP FUNCTION IF EXISTS insertar_trabajador;
-
-
-
+DROP FUNCTION IF EXISTS agregar_productos_pedido;
 
 CREATE SEQUENCE secuencia_productos;
 CREATE SEQUENCE secuencia_sedes;
@@ -55,6 +54,7 @@ CREATE SEQUENCE secuencia_trabajadores;
 CREATE SEQUENCE secuencia_clientes;
 CREATE SEQUENCE secuencia_pagos;
 CREATE SEQUENCE secuencia_tarjetas;
+
 
 CREATE TABLE Clientes(
 	cliente_id				   INT,
@@ -130,7 +130,7 @@ CREATE TABLE Productos(
 	producto_descripcion	   VARCHAR(200) NOT NULL,
 	producto_imagen			   VARCHAR(200) NOT NULL,
 	producto_existencias       INT,
-	producto_precio			   INT,
+	producto_precio			   FLOAT,
 	producto_descuento         INT,
 	producto_iva			   INT,
 	producto_estado			   INT DEFAULT 1,
@@ -144,8 +144,10 @@ CREATE TABLE Productos(
 CREATE TABLE Pedidos(
 	pedido_id				   INT,
 	pedido_estado			   INT DEFAULT 1,
+	pedido_costo			   FLOAT DEFAULT 0,
 	sede_id					   INT,
 	cliente_id            	   INT,
+	
 	
 	
 	CONSTRAINT pk_pedido PRIMARY KEY(pedido_id),
@@ -158,7 +160,7 @@ CREATE TABLE Pedidos(
 
 CREATE TABLE Pedido_contiene_productos(
 	pedido_cp_cantidad		   INT,
-	pedido_cp_precio	       INT,
+	pedido_cp_precio	       FLOAT,
 	pedido_id				   INT,
 	producto_codigo			   INT,
 	
@@ -173,26 +175,94 @@ CREATE TABLE Pedido_contiene_productos(
 
 CREATE TABLE Pagos(
 	pago_numero_transaccion	   INT,
-	pago_valor 				   INT,
+	pago_valor 				   FLOAT,
 	pago_metodo	               INT,
-	pago_cuotas				   INT,
+	pago_porcentaje_pedido	   INT,
+	pago_cuotas				   INT DEFAULT 1,
 	pago_fecha                 DATE,
 	tarjeta_id				   INT,
+	pedido_id				   INT,
 	             
 	
 	CONSTRAINT pk_pago	PRIMARY KEY(pago_numero_transaccion),
 		
 	CONSTRAINT fk_pago_tarjeta FOREIGN KEY(tarjeta_id)
-		REFERENCES Tarjetas(tarjeta_id) ON UPDATE CASCADE ON DELETE RESTRICT
+		REFERENCES Tarjetas(tarjeta_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+
+	CONSTRAINT fk_pago_pedido FOREIGN KEY(pedido_id)
+		REFERENCES Pedidos(pedido_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
-
-
 -- ************************************************************************************
 
 -- ************************PROCEDIMIENTOS ALMACENADOS**********************************
 
+-- ************************************************************************************
+
+
+
+
+CREATE FUNCTION codificar_pago() RETURNS TRIGGER AS $$
+DECLARE
+	valor_pedido FLOAT;
+BEGIN
+	SELECT pedido_costo INTO valor_pedido
+	FROM Pedidos
+	WHERE pedido_id = NEW.pedido_id;
+
+	NEW.pago_numero_transaccion := NEXTVAL('secuencia_pagos');
+	NEW.pago_fecha := current_date ;
+	NEW.pago_valor := (NEW.pago_porcentaje_pedido*valor_pedido)/100;
+
+
+
+
+	RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_codificar_pago BEFORE INSERT 
+ON Pagos FOR EACH ROW 
+EXECUTE PROCEDURE codificar_pago();
+
 
 -- ************************************************************************************
+
+CREATE FUNCTION agregar_productos_pedido() RETURNS TRIGGER AS $$
+	DECLARE
+	old_total FLOAT;
+	new_total FLOAT;
+	p_precio FLOAT;
+	p_descuento INT;
+	p_iva INT;
+BEGIN
+	SELECT producto_precio,producto_iva,producto_descuento INTO p_precio,p_iva,p_descuento
+	FROM Productos
+	WHERE producto_codigo = NEW.producto_codigo;
+
+	p_precio := p_precio- ((p_descuento*p_precio)/100) ;--APLICANDO DESCUENTO 
+	NEW.pedido_cp_precio := p_precio + ((p_precio*p_iva)/100);
+
+
+	SELECT pedido_costo INTO old_total 
+	FROM Pedidos 
+	WHERE pedido_id = NEW.pedido_id;
+
+	new_total := old_total+(NEW.pedido_cp_cantidad*NEW.pedido_cp_precio);
+
+	UPDATE Pedidos SET pedido_costo = new_total
+	WHERE pedido_id = NEW.pedido_id;
+
+
+	RETURN NEW;
+END
+$$LANGUAGE plpgsql;
+
+
+CREATE TRIGGER tr_agregar_productos_pedido BEFORE INSERT
+ON Pedido_contiene_productos FOR EACH ROW
+EXECUTE PROCEDURE agregar_productos_pedido();
+
+
 CREATE FUNCTION codificar_tarjeta() RETURNS TRIGGER AS $$
 DECLARE
 BEGIN
@@ -208,23 +278,6 @@ EXECUTE PROCEDURE codificar_tarjeta();
 
 
 
--- ************************************************************************************
-
-
-
-
-CREATE FUNCTION codificar_pago() RETURNS TRIGGER AS $$
-DECLARE
-BEGIN
-	NEW.pago_numero_transaccion := NEXTVAL('secuencia_pagos');
-	NEW.pago_fecha := current_date ;
-	RETURN NEW;
-END
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER tr_codificar_pago BEFORE INSERT 
-ON Pagos FOR EACH ROW 
-EXECUTE PROCEDURE codificar_pago();
 
 
 
@@ -340,9 +393,9 @@ INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,produ
 INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
  VALUES ('Hamburguesa','Deliciosa hamburguesa americana','burguer.jpg',10,100,5,16,2);
 
-INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (2,500,1,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (2,1,1);
 
-INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_cp_precio,pedido_id,producto_codigo) VALUES (1,100,1,2);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (1,1,2);
 
 INSERT INTO Trabajadores(trabajador_documento,sede_id,trabajador_nombre,trabajador_apellido,trabajador_celular,trabajador_foto,trabajador_cargo,trabajador_direccion,trabajador_password)
  VALUES('13063664','1','Manuel','Chacon','3178145209','http://ciencias.univalle.edu.co/images/imagenes/profesores/fisica/Chacon.jpg','Admin','Calle 7','$2b$10$h71Ta5uixXRBIMcxMFacUe2lCPgS3yFYfKdIXlQewZVWRqjiU57Fi');
@@ -352,12 +405,12 @@ INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tip
 INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (2222222222,482,'20-06-2022',0,1);
 
 
-INSERT INTO Pagos (tarjeta_id,pago_valor,pago_metodo,pago_cuotas,pago_fecha) VALUES (1,1300,0,1,'20-03-2020');
-INSERT INTO Pagos (tarjeta_id,pago_valor,pago_metodo,pago_cuotas,pago_fecha) VALUES (1,300,0,1,'20-03-2020');
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_metodo,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,1,'20-03-2020',1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_metodo,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,1,'20-03-2020',1);
 
 
 
 --FACTURAS:
 
-CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, SUM(pedido_cp_precio) AS costo_pedido FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
---CREATE VIEW PAGO_FACTURAS AS (SELECT pedido_id,pago_numero_transaccion,tarjeta_numero,pago_fecha,pago_valor FROM Pagos GROUP BY pedido_id,pago_numero_transaccion);
+CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, pedido_costo FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
+CREATE VIEW PAGO_FACTURAS AS (SELECT pedido_id,cliente_nombre,cliente_apellido,tarjeta_id,tarjeta_numero,pago_valor,pago_cuotas,pago_fecha FROM pagos NATURAL JOIN tarjetas NATURAL JOIN clientes ORDER BY pedido_id);

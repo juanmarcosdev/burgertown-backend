@@ -3,6 +3,7 @@ const router = Router();
 const {createCliente,getClientes,getCliente, stateCliente, editCliente, loginCliente} = require('../controllers/cliente.controller');
 const { createTarjeta } = require('../controllers/tarjeta.controller');
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
+const autorizacionCliente = require("../middleware/autorizacionCliente");
 
 //    /api/Cliente...
 router.post('/Create',createCliente);
@@ -12,7 +13,7 @@ router.post('/Tarjeta/Add',createTarjeta);
 //    /api/:cliente_celular
 router.get('/:cliente_id',autorizacionTrabajador,getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
-router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
+router.put('/Edit/:cliente_id',autorizacionCliente,editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
 
 module.exports = router;

@@ -13,6 +13,20 @@
 
 </code>
 
+<code>
+{
+    "cliente_celular":"3178145209",
+    "cliente_nombre":"Camila",
+    "cliente_apellido":"Rodriguez",
+    "cliente_documento":"59650873",
+    "cliente_direccion":"Carrera 4 # 8-15",
+    "cliente_fecha_nacimiento":"1998-10-02",
+    "cliente_password":"59650873"
+    }
+
+</code>
+
+
 ## Valores para un trabajador:
 
 <code> 
@@ -25,9 +39,26 @@
      "trabajador_contratacion": "2020-10-19",
      "trabajador_cargo": "ADMIN",
      "trabajador_direccion": "Calle 7",
-     "trabajador_password": "3031999"
+     "trabajador_password": "3031999",
+     "sede_id":1
      }
 </code>
+
+<code> 
+{
+     "trabajador_documento": "1113696488",
+     "trabajador_nombre": "Luis",
+     "trabajador_apellido": "Dominguez",
+     "trabajador_celular": "3178145209",
+     "trabajador_foto": "trabajador2.jpg",
+     "trabajador_contratacion": "2020-10-19",
+     "trabajador_cargo": "ADMIN",
+     "trabajador_direccion": "Calle 9",
+     "trabajador_password": "3031999",
+     "sede_id" : 1
+     }
+</code>
+
 
 ## Valores para un producto:
 
