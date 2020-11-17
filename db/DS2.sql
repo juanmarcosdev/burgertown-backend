@@ -159,10 +159,10 @@ CREATE TABLE Pedidos(
 );
 
 CREATE TABLE Pedido_contiene_productos(
-	pedido_cp_cantidad		   INT,
-	pedido_cp_precio	       FLOAT,
 	pedido_id				   INT,
 	producto_codigo			   INT,
+	pedido_cp_cantidad		   INT,
+	pedido_cp_precio	       FLOAT,
 	
 	CONSTRAINT pk_pedido_cp PRIMARY KEY(pedido_id,producto_codigo),
 	
