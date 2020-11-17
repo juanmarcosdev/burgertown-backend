@@ -31,5 +31,27 @@ const Pedido = db.define(
   }
 );
 
+const Productos_Pedido = db.define("pedido_contiene_productos",{
+    pedido_id:{
+        type: Sequelize.INTEGER,
+        primaryKey: true
+    },
+    producto_codigo:{
+        type: Sequelize.INTEGER,
+        primaryKey: true
+    },
+    pedido_cp_cantidad:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    pedido_cp_precio:{
+        type: Sequelize.FLOAT
+    }
 
-module.exports = Pedido;
+
+},{
+    timestamps: false
+})
+
+exports.Pedido = Pedido;
+exports.Productos_Pedido = Productos_Pedido;
