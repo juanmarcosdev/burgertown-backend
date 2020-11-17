@@ -258,7 +258,7 @@ END
 $$LANGUAGE plpgsql;
 
 
-CREATE TRIGGER tr_agregar_productos_pedido BEFORE INSERT
+CREATE TRIGGER tr_agregar_productos_pedido AFTER INSERT
 ON Pedido_contiene_productos FOR EACH ROW
 EXECUTE PROCEDURE agregar_productos_pedido();
 
@@ -413,4 +413,4 @@ INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_metodo,pago_cuotas,pag
 --FACTURAS:
 
 CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, pedido_costo FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
-CREATE VIEW PAGO_FACTURAS AS (SELECT pedido_id,cliente_nombre,cliente_apellido,tarjeta_id,tarjeta_numero,pago_valor,pago_cuotas,pago_fecha FROM pagos NATURAL JOIN tarjetas NATURAL JOIN clientes ORDER BY pedido_id);
+--CREATE VIEW PAGO_FACTURAS AS (SELECT DISTINCT pagos.pedido_id,cliente_nombre,cliente_apellido,tarjeta_id,tarjeta_numero,SUM(pago_valor) AS pago_valor,pago_cuotas,pago_fecha FROM pagos NATURAL JOIN tarjetas NATURAL JOIN clientes ORDER BY pedido_id);
