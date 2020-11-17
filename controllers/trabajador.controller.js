@@ -133,7 +133,7 @@ async function editTrabajador(req, res) {
     trabajador_direccion,
     sede_id,
   } = req.body;
-  let { cliente_password } = req.body;
+  let { trabajador_password } = req.body;
   if (trabajador_password) {
     trabajador_password = await Encriptacion.Encriptar(trabajador_password);
   }
