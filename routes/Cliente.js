@@ -3,10 +3,10 @@ const router = Router();
 const {createCliente,getClientes,getCliente, stateCliente, editCliente, loginCliente} = require('../controllers/cliente.controller');
 const { createTarjeta } = require('../controllers/tarjeta.controller');
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
-const autorizacionCliente = require("../middleware/autorizacionCliente");
+const { validarCliente } = require('../middleware/validaciones');
 
 //    /api/Cliente...
-router.post('/Create',createCliente);
+router.post('/Create',validarCliente,createCliente);
 router.get('/Get',autorizacionTrabajador,getClientes);
 router.post('/Tarjeta/Add',createTarjeta);
 
