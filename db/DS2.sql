@@ -381,17 +381,70 @@ INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura,
 INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password,cliente_foto)
 VALUES('3166891624','Humberto','Mora','1113696488','Carrera 4 # 7-10','30-03-1999','$2b$10$h71Ta5uixXRBIMcxMFacUe2lCPgS3yFYfKdIXlQewZVWRqjiU57Fi','http://ciencias.univalle.edu.co/images/imagenes/profesores/matematicas/humbertoMora.gif');
 
-INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Pizzas','Las pizzas de la sede costa');
+-- INICIO CATEGORIAS
 
-INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Hamburguesas','Las hamburguesas de la sede costa');
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Hamburguesas','Deliciosas hamburguesas con Carne Angus');
+
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Salchipapas','Las mejores salchipapas de Cali');
+
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Pizzas','Pizzas tradicionales de gran sabor');
+
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Perros calientes','Perros calientes de excelente calidad');
+
+INSERT INTO Categorias(categoria_nombre,categoria_descripcion) VALUES ('Sandwiches','Sandwiches deliciosos con salsa de ajo');
+
+-- FIN CATEGORIAS
+
+-- INICIO PRODUCTOS
+
+-- INICIO HAMBURGUESAS
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Hamburguesa sencilla','Deliciosa hamburguesa americana con carne Angus certificada 1/4 LIBRA, cebolla, lechuga, tomate y queso y papas a la francesa','https://cdn.pixabay.com/photo/2017/10/03/02/18/burger-2811118_960_720.jpg',100,6900,0,16,1);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Hamburguesa Fin del Mundo','Deliciosa hamburguesa americana con carne Angus certificada 500 GR, cebolla, lechuga, tomate, queso, tocineta, pepinillos y papas a la francesa','https://cdn.pixabay.com/photo/2017/04/23/09/02/hamburger-2253344_960_720.jpg',100,26900,0,16,1);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('MayoBurguer','Deliciosa hamburguesa americana con carne Angus certificada 200 GR, lechuga, tomate, queso, cebolla, con salsa Mayonesa de la casa','https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246_960_720.jpg',100,9900,0,16,1);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Hamburguesa Vegana','Deliciosa hamburguesa con carne de lentejas, lechuga, tomate, queso, pepinillos','https://cdn.pixabay.com/photo/2014/10/19/20/59/hamburger-494706_960_720.jpg',100,7900,0,16,1);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('MiniBurguer','Deliciosa hamburguesa americana con carne Angus certificada 150 GR, lechuga, tomate, queso, papas a la francesa y miniensalada','https://cdn.pixabay.com/photo/2015/12/08/00/26/food-1081707_960_720.jpg',100,5900,0,16,1);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Hamburguesa TociPepinillo','Deliciosa hamburguesa americana con carne Angus certificada 250 GR, lechuga, tomate, queso, abundante cebolla, abundantes pepinillos y 100 GR de tocineta','https://cdn.pixabay.com/photo/2014/10/23/18/05/burger-500054_960_720.jpg',100,13900,0,16,1);
+-- FIN HAMBURGUESAS
+
+-- INICIO SALCHIPAPAS
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Mega Salchipapa','La más ambiciosa, para 4 personas, salchicha, papas a la francesa, ripio de papa, maíz tierno, pollo desmechado, carne desmechada, queso derretido','https://i.ibb.co/3rwyphL/delicious-giant-salchipapa.jpg',100,25900,0,16,2);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('SalchiChorizo con Huevo','Salchicha, papas a la francesa, Chorizo, y Huevo','https://i.ibb.co/Jxm81tD/Salchipapa-roasted-and-sliced-fresh-Peruvian-pork-sausage-fried-potato-on-wooden-background.jpg',100,9900,0,16,2);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('SalchiChorizo con Papa Amarilla y Lechuga','Salchicha, Papa amarilla, Chorizo y Lechuga','https://i.ibb.co/D7LTGp6/Salchipapa-fresh-grilled-and-sliced-Peruvian-pork-sausage-fried-potato-on-wooden-table.jpg',100,8900,0,16,2);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Salchimayonesa','Salchicha, Papas a la francesa, Salsa mayonesa de la casa y hierbas finas','https://i.ibb.co/QcS8wCs/Homemade-Peruvian-Salchipapa-Fries-with-Sausage-Slices-Ketchup-and-Mayonnaise-Traditional-Food.jpg',100,7900,0,16,2);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Salchipapa Grande','Salchichas y Papas acompañadas de Mostaza y Mayonesa al gusto','https://i.ibb.co/34fcLBZ/Traditional-homemade-Peruvian-Salchipapa-Fries-with-mayo-ketchup-and-mustard-sauces-French-fries-wit.jpg',100,6900,0,16,2);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Salchipapa Kid','Salchipapas y Papas acompañadas de Mayonesa y Salsa de Tomate en el tamaño adecuado para tu campeón o campeona','https://i.ibb.co/R6NKb5P/Typical-Latin-America-Salchipapa-Sausages-with-fries-ketchup-mustard-and-mayo-in-iron-pan-on-yellow.jpg',100,5900,0,16,2);
+-- FIN SALCHIPAPAS
+
+-- INICIO PIZZAS
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Pizza de Pollo con Champiñones','Tradicional Pizza con Pollo y Champiñones frescos','https://cdn.pixabay.com/photo/2014/04/22/02/56/pizza-329523_960_720.jpg',100,16900,0,16,3);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Pizza de Res con Albahaca','Pizza con trozos de res asados cubierto por hojas frescas de Albahaca','https://cdn.pixabay.com/photo/2017/09/30/15/10/pizza-2802332_960_720.jpg',100,17900,0,16,3);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Pizza Vegetariana','Pizza con vegetales frescos: Tomate, Brócoli, Pepinillos, Cebolla, Japaleños','https://cdn.pixabay.com/photo/2014/05/18/11/25/pizza-346985_960_720.jpg',100,18900,0,16,3);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Pizza Napolitana','La clásica Pizza Napolitana, con tomate, ajo, orégano y aceite de oliva','https://cdn.pixabay.com/photo/2017/02/15/10/57/pizza-2068272_960_720.jpg',100,14900,0,16,3);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Pizza de la Casa','Horneada con mucho amor, con Albahaca, Orégano, Ajo y Salsa de Tomate','https://cdn.pixabay.com/photo/2016/02/19/11/30/pizza-1209748_960_720.jpg',100,19900,0,16,3);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Pizza de Pepperoni','La clásica y más vendida, con Pepperoni Fresco, queso y salsa de tomate','https://cdn.pixabay.com/photo/2016/03/05/21/45/pizza-1239077_960_720.jpg',100,20900,0,16,3);
+-- FIN PIZZAS
+
+-- INICIO PERROS
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Bacon HotDog','Un clásico perro caliente con mayonesa, salsa de tomate, mayonesa, cebolla y deliciosos trozos de tocineta','https://cdn.pixabay.com/photo/2020/06/24/22/45/hot-dog-5337929_960_720.jpg',100,9900,0,16,4);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Hot Dog Gourmet','El concepto de HotDog llevado a un siguiente nivel en la escala culinaria, con lechuga fresca, tomate, tocineta, salchicha premium y finas hierbas','https://cdn.pixabay.com/photo/2017/03/10/13/49/fast-food-2132863_960_720.jpg',100,17900,0,16,4);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Banana HotDog','La deconstrucción más bizarra del famoso platillo americano','https://cdn.pixabay.com/photo/2016/09/13/20/15/hot-dog-1668141_960_720.jpg',100,5900,0,16,4);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Cheese HotDog','El clásico HotDog, pero con queso derretido y un par de cebollas caramelizadas','https://cdn.pixabay.com/photo/2017/06/24/05/26/hot-dog-2436748_960_720.jpg',100,13900,0,16,4);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('HotDog sencillo','El tradicional acompañado de pan fino, salchicha seleccionada y salsa de tomate con mostaza','https://cdn.pixabay.com/photo/2012/03/02/11/00/hot-dog-21074_960_720.jpg',100,7900,0,16,4);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('HotDog Mega','Un HotDog clásico, pero con salchicha tamaño XXL, y acompañado de deliciosas papas a la francesa','https://cdn.pixabay.com/photo/2016/03/05/21/45/pizza-1239077_960_720.jpg',100,15900,0,16,4);
+-- FIN PERROS
+
+-- INICIO SANDWICHES
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Sandwich Tradicional','El clásico, el que hacia mamá en sanduchera, pero llevado a un nivel de alta culinaria, sencillo con lechuga, jamón y queso','https://cdn.pixabay.com/photo/2016/11/29/04/00/bread-1867208_960_720.jpg',100,5900,0,16,5);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Sandwich Ensalada','¿Quien dijo que no podiamos comer sano en la clasica presentacion de Sandwich? Este ejemplar tiene tomate, lechuga fresca, queso, fresa y pan integral','https://cdn.pixabay.com/photo/2019/04/08/18/35/sandwich-4112566_960_720.jpg',100,7900,0,16,5);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Sandwich Desayuno','Un clásico emparedado para comenzar el día con abundante cebolla larga, huevo cocido en trozos, tomate, hierbas y pepinillos','https://cdn.pixabay.com/photo/2018/06/21/15/07/bread-3488727_960_720.jpg',100,8900,0,16,5);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Sandwich 4 pisos','El Concepto tradicional deconstruido junto con un concepto que viene de su hermana la Hamburguesa, 4 pisos de pan separados por abundante queso, jamón, lechuga, tomate y pepinillos','https://cdn.pixabay.com/photo/2017/05/10/17/27/sandwich-2301387_960_720.jpg',100,12900,0,16,5);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Mini Sandwich','El clásico Sandwichito que le empacarías a tu hijo para ir al colegio, pero mucho más gourmet y adecuado para el consumo de menores','https://cdn.pixabay.com/photo/2014/09/18/21/17/sandwich-451403_960_720.jpg',100,3900,0,16,5);
+INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id) VALUES ('Sandwich de Huevo','Un delicioso Sandwich que te dejará sin hambre, con tomate, tocineta, aguacate, huevo revuelto y pan fresco','https://cdn.pixabay.com/photo/2016/08/23/23/11/egg-1615790_960_720.jpg',100,13900,0,16,5);
+-- FIN SANDWICHES
+
+-- FIN PRODUCTOS
 
 INSERT INTO Pedidos(sede_id,cliente_id) VALUES (1,1);
-
-INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
- VALUES ('Pizza','Deliciosa pizza de champiñones','pizza.jpg',10,50,5,16,1);
-
-INSERT INTO Productos(producto_nombre,producto_descripcion,producto_imagen,producto_existencias,producto_precio,producto_descuento,producto_iva,categoria_id)
- VALUES ('Hamburguesa','Deliciosa hamburguesa americana','burguer.jpg',10,100,5,16,2);
 
 INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (2,1,1);
 
