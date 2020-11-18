@@ -44,9 +44,6 @@ async function validarTrabajador(req, res, next) {
   }
 }
 
-<<<<<<< HEAD
-exports.validarCliente = validarCliente;
-=======
 async function validarTarjeta(req,res,next){
   const {tarjeta_numero,cliente_id} = req.body
 
@@ -71,4 +68,3 @@ async function validarTarjeta(req,res,next){
 exports.validarCliente = validarCliente;
 exports.validarTrabajador = validarTrabajador;
 exports.validarTarjeta = validarTarjeta;
->>>>>>> Pascu
