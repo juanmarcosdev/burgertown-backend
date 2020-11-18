@@ -4,6 +4,7 @@ const {createCliente,getClientes,getCliente, stateCliente, editCliente, loginCli
 const { createTarjeta } = require('../controllers/tarjeta.controller');
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
 const { validarCliente } = require('../middleware/validaciones');
+const autorizacionCliente = require('../middleware/autorizacionCliente')
 
 //    /api/Cliente...
 router.post('/Create',validarCliente,createCliente);
