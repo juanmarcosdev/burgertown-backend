@@ -128,7 +128,7 @@
 
 ### Crear(POST):
 
--/(Trabajador-Cliente-Producto-Sede-Categoria)/Create
+-/(Trabajador-Cliente-Producto-Sede-Categoria-Pedido)/Create
 
 ### Obtener un registro en especifico(GET):
 
@@ -165,6 +165,13 @@
 ### Agregar una tarjeta a un cliente(POST):
 
 -/Cliente/Tarjeta/Add
+
+### Agregar un producto a un pedido(POST):
+
+-/Pedido/AgregarProducto/:pedido_id
+
+
+
 
 ###### Comandos para reestablecer DB en Heroku
 

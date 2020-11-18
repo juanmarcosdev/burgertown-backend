@@ -7,6 +7,6 @@ const { createPedido, pagarPedido, agregarProductoPedido } = require('../control
 //    /api/Pedido..
 router.post('/Create',autorizacionCliente,createPedido);
 router.post('/Pagar',autorizacionCliente,pagarPedido);
-router.put('/AgregarProducto/:pedido_id',autorizacionCliente,agregarProductoPedido);
+router.post('/AgregarProducto/:pedido_id',autorizacionCliente,agregarProductoPedido);
 
 module.exports = router;
