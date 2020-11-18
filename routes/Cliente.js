@@ -8,7 +8,7 @@ const autorizacionCliente = require("../middleware/autorizacionCliente");
 //    /api/Cliente...
 router.post('/Create',createCliente);
 router.get('/Get',autorizacionTrabajador,getClientes);
-router.post('/Tarjeta/Add',createTarjeta);
+router.post('/Tarjeta/Add',autorizacionCliente,createTarjeta);
 
 //    /api/:cliente_celular
 router.get('/:cliente_id',autorizacionTrabajador,getCliente);
