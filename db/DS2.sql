@@ -73,7 +73,7 @@ CREATE TABLE Clientes(
 
 CREATE TABLE Tarjetas(
 	tarjeta_id 				   INT,
-	tarjeta_numero			   VARCHAR(30) UNIQUE,
+	tarjeta_numero			   VARCHAR(30),
 	tarjeta_cvc				   VARCHAR(3),
 	tarjeta_vencimiento		   DATE,
 	tarjeta_tipo			   INT,
