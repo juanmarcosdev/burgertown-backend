@@ -74,7 +74,7 @@ async function createCliente(req, res) {
       const token = jwtGeneratorCliente(cliente_celular);
 
       res.json({
-        meesage: "Cliente agregado satisfactoriamente",
+        message: "Cliente agregado satisfactoriamente",
         data: newCliente,
         token,
       });

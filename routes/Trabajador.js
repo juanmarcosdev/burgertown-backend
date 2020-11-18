@@ -2,10 +2,11 @@ const {Router} = require('express')
 const router = Router();
 const {createTrabajador,getTrabajadores,getTrabajador, stateTrabajador, editTrabajador, loginTrabajador} = require('../controllers/trabajador.controller')
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
+const { validarTrabajador } = require('../middleware/validaciones');
 
 
 //    /api/Trabajador...
-router.post('/Create',autorizacionTrabajador,createTrabajador);
+router.post('/Create',autorizacionTrabajador,validarTrabajador,createTrabajador);
 router.get('/Get',autorizacionTrabajador,getTrabajadores);
 
 //    /api/:Trabajador_documento
