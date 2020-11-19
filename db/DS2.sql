@@ -373,6 +373,32 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER tr_insertar_trabajador BEFORE INSERT
 ON Trabajadores FOR EACH ROW
 EXECUTE PROCEDURE insertar_trabajador();
+
+-- ************************************************************************************
+
+CREATE FUNCTION menu_productos(categoria_id INT,ordenarpor INT) RETURNS TABLE
+(categoria_nombre VARCHAR,producto_imagen VARCHAR,producto_nombre VARCHAR,producto_descripcion VARCHAR,producto_precio FLOAT,producto_descuento INT ,producto_estado INT)
+AS $$
+DECLARE
+BEGIN
+IF(ordenapor = 1) THEN
+	SELECT categorias.categoria_id,producto_nombre FROM productos INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id ORDER BY categoria_id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- ************************************************************************************
 
 

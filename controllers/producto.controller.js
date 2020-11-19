@@ -74,7 +74,11 @@ async function getProductosCategoria(req, res) {
 //Obtener productos
 async function getProductos(req, res) {
   try {
-    const Productos = await Producto.findAll();
+    const Productos = await Producto.findAll({
+      order:[
+        ['categoria_id','ASC']
+      ]
+    });
     res.json({
       data: Productos,
     });
