@@ -76,7 +76,8 @@ async function getProductos(req, res) {
   try {
     const Productos = await Producto.findAll({
       order:[
-        ['categoria_id','ASC']
+        ['categoria_id','ASC'],
+        ['producto_precio','ASC']
       ]
     });
     res.json({
