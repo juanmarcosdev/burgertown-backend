@@ -103,36 +103,25 @@ async function pagarPedido(req, res) {
   }
 }
 async function agregarProductoPedido(req, res) {
-  const { pedido_id } = req.params;
   const Productos = req.body;
-  var contadorProductos = Productos.length;
-
   try {
-    Productos.forEach(async (Producto) => {
-      const { producto_codigo, pedido_cp_cantidad } = Producto;
-      const addProducto = await Productos_Pedido.create({
-        pedido_id,
-        producto_codigo,
-        pedido_cp_cantidad,
-      });
+    addProductos = await Productos_Pedido.bulkCreate(Productos,{returning: true}
+    )
+    console.log(Productos);
 
-      if (addProducto) {
-        console.log("Producto agregado exitosamente");
-        contadorProductos = contadorProductos - 1;
-      }
-      
-    })
-    res.json({
-        message:'Productos agregados satisfactoriamente al pedido'
-    })
-
-
+    if(addProductos){
+      res.json({
+        message: 'Productos agregados correctamente',
+        data: addProductos
+      })
+    }
+    
+    
   } catch (error) {
     console.log(error);
     res.json({
-      message: "Error al agregar estos productos",
-      data: [],
-    });
+      error: error
+    })
   }
 }
 

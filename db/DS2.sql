@@ -126,9 +126,9 @@ CREATE TABLE Categorias(
 
 CREATE TABLE Productos(
 	producto_codigo			   INT,
-	producto_nombre			   VARCHAR(20) NOT NULL,
-	producto_descripcion	   VARCHAR(200) NOT NULL,
-	producto_imagen			   VARCHAR(200) NOT NULL,
+	producto_nombre			   VARCHAR(255) NOT NULL,
+	producto_descripcion	   VARCHAR(255) NOT NULL,
+	producto_imagen			   VARCHAR(255) NOT NULL,
 	producto_existencias       INT,
 	producto_precio			   FLOAT,
 	producto_descuento         INT,
@@ -258,10 +258,11 @@ END
 $$LANGUAGE plpgsql;
 
 
-CREATE TRIGGER tr_agregar_productos_pedido AFTER INSERT
+CREATE TRIGGER tr_agregar_productos_pedido BEFORE INSERT
 ON Pedido_contiene_productos FOR EACH ROW
 EXECUTE PROCEDURE agregar_productos_pedido();
 
+--******************************************************************************************************
 
 CREATE FUNCTION codificar_tarjeta() RETURNS TRIGGER AS $$
 DECLARE
@@ -375,18 +376,6 @@ ON Trabajadores FOR EACH ROW
 EXECUTE PROCEDURE insertar_trabajador();
 
 -- ************************************************************************************
-
-CREATE FUNCTION menu_productos(categoria_id INT,ordenarpor INT) RETURNS TABLE
-(categoria_nombre VARCHAR,producto_imagen VARCHAR,producto_nombre VARCHAR,producto_descripcion VARCHAR,producto_precio FLOAT,producto_descuento INT ,producto_estado INT)
-AS $$
-DECLARE
-BEGIN
-IF(ordenapor = 1) THEN
-	SELECT categorias.categoria_id,producto_nombre FROM productos INNER JOIN categorias ON productos.categoria_id = categorias.categoria_id ORDER BY categoria_id;
-
-
-
-
 
 
 

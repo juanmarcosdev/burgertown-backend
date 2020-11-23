@@ -9,7 +9,7 @@ const { createPedido, pagarPedido, agregarProductoPedido } = require('../control
 //    /api/Pedido..
 router.post('/Create',createPedido);
 router.post('/Pagar',pagarPedido);
-router.post('/AgregarProducto/:pedido_id',agregarProductoPedido);
+router.post('/AgregarProducto/',agregarProductoPedido);
 
 
 /*
