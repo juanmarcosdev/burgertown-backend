@@ -58,48 +58,24 @@ async function createPedido(req, res) {
 }
 
 async function pagarPedido(req, res) {
-  const {
-    pago_metodo,
-    pago_porcentaje_pedido,
-    pago_cuotas,
-    pago_fecha,
-    tarjeta_id,
-    pedido_id,
-  } = req.body;
-
+  const Pagos = req.body;
   try {
-    const newPagoPedido = Pago.create(
-      {
-        pago_metodo,
-        pago_porcentaje_pedido,
-        pago_cuotas,
-        pago_fecha,
-        tarjeta_id,
-        pedido_id,
-      },
-      {
-        fields: [
-          "pago_metodo",
-          "pago_porcentaje_pedido",
-          "pago_cuotas",
-          "pago_fecha",
-          "tarjeta_id",
-          "pedido_id",
-        ],
-      }
-    );
+    const newPago = await Pago.bulkCreate(Pagos,{returning: true})
 
-    if (newPagoPedido) {
+    if(newPago){
       res.json({
-        message: "Pago realizado exitosamente",
-        data: newPagoPedido,
-      });
+        message: 'Pago/s realizado/s exitosamente',
+        data: newPago
+      })
     }
+    
+
+    
   } catch (error) {
-    console.log(error);
     res.json({
-      message: "Error al concretar el pago",
-    });
+      message: 'Error al procesar el/los pago/s',
+      error: error
+    })
   }
 }
 async function agregarProductoPedido(req, res) {

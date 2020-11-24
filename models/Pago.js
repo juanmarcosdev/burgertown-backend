@@ -15,6 +15,10 @@ const Pago = db.define(
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      pago_porcentaje_pedido:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       pago_fecha: {
         type: Sequelize.DATEONLY,
         allowNull: false,
