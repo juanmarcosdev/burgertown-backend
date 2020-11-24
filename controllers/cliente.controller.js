@@ -4,11 +4,11 @@ const jwt = require("jsonwebtoken");
 const { jwtGeneratorCliente } = require("../utils/jwtGenerator");
 
 async function getCliente(req, res) {
-  const { cliente_id } = req.params;
+  const { cliente_celular } = req.params;
   try {
     let getCliente = await Cliente.findOne({
       where: {
-        cliente_id,
+        cliente_celular,
       },
     });
 

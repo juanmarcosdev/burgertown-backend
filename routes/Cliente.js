@@ -14,7 +14,7 @@ router.get('/Get',getClientes);
 router.post('/Tarjeta/Add',validarTarjeta,createTarjeta);
 
 //    /api/:cliente_celular
-router.get('/:cliente_id',getCliente);
+router.get('/:cliente_celular',getCliente);
 router.put('/:cliente_id',stateCliente);
 router.put('/Edit/:cliente_id',editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
