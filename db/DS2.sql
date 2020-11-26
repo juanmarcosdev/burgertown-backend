@@ -240,7 +240,7 @@ BEGIN
 	WHERE producto_codigo = NEW.producto_codigo;
 
 	p_precio := p_precio- ((p_descuento*p_precio)/100) ;--APLICANDO DESCUENTO 
-	NEW.pedido_cp_precio := p_precio + ((p_precio*p_iva)/100);
+	NEW.pedido_cp_precio := p_precio;
 
 
 	SELECT pedido_costo INTO old_total 
