@@ -29,18 +29,10 @@ async function createTarjeta(req, res) {
       }
     );
 
-
-    if(addTarjeta.rows > 0){
-        res.json({
-            message: 'Tarjeta agregada satisfactoriamente',
-            data : addTarjeta
-        })
-    }
-    else{
-        res.json({
-            message: 'Error, tarjeta ya registrada'
-        })
-    }
+    res.json({
+      message: "Tarjeta agregada satisfactoriamente",
+      data: addTarjeta,
+    });
   } catch (error) {
     res.json(error);
   }

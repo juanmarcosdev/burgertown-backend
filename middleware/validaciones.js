@@ -47,17 +47,20 @@ async function validarTrabajador(req, res, next) {
 async function validarTarjeta(req,res,next){
   const {tarjeta_numero,cliente_id} = req.body
 
-  if(req.path === "/Create"){
+  if(req.path === "/Tarjeta/Add"){
     let findTarjeta = await Tarjeta.findOne({
       where:{
         [Op.and]:[{tarjeta_numero},{cliente_id}]
       }
     })
     if(findTarjeta){
-      res,json({
+      res.json({
         error:1,//Esta tarjeta ya esta inscrita para este trabajador
-        message: 'esta tarjeta ya se encuentra registrada para este trabajador'
+        message: 'esta tarjeta ya se encuentra registrada para este cliente'
       })
+    }
+    else {
+      next()
     }
 
   }

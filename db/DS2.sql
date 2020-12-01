@@ -204,14 +204,24 @@ CREATE TABLE Pagos(
 CREATE FUNCTION codificar_pago() RETURNS TRIGGER AS $$
 DECLARE
 	valor_pedido FLOAT;
+	tipo_pago    INT;
 BEGIN
 	SELECT pedido_costo INTO valor_pedido
 	FROM Pedidos
 	WHERE pedido_id = NEW.pedido_id;
 
+	SELECT tarjeta_tipo INTO tipo_pago
+	FROM tarjetas
+	WHERE tarjeta_id = NEW.tarjeta_id;
+
+
 	NEW.pago_numero_transaccion := NEXTVAL('secuencia_pagos');
 	NEW.pago_fecha := current_date ;
 	NEW.pago_valor := (NEW.pago_porcentaje_pedido*valor_pedido)/100;
+
+
+	NEW.pago_metodo = tipo_pago;
+
 
 
 
@@ -468,8 +478,8 @@ INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tip
 INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (2222222222,482,'20-06-2022',0,1);
 
 
-INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_metodo,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,1,'20-03-2020',1);
-INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_metodo,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,1,'20-03-2020',1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,'20-03-2020',1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,'20-03-2020',1);
 
 
 
