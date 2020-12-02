@@ -38,4 +38,29 @@ async function createTarjeta(req, res) {
   }
 }
 
+async function getTarjetasCliente(req,res) {
+  console.log('hola');
+  const {cliente_id} = req.params;
+  try {
+    const metodos = await Tarjeta.findAll({
+      where: {
+        cliente_id,
+      },
+    });
+    if (metodos) {
+      res.json({
+        message: "metodos de pago para este cliente: ",
+        data: metodos,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({
+      error,
+    });
+  }
+}
+
+
+exports.getTarjetasCliente = getTarjetasCliente;
 exports.createTarjeta = createTarjeta;

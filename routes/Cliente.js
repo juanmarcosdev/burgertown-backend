@@ -1,10 +1,11 @@
 const {Router} = require('express')
 const router = Router();
 const {createCliente,getClientes,getCliente, stateCliente, editCliente, loginCliente} = require('../controllers/cliente.controller');
-const { createTarjeta } = require('../controllers/tarjeta.controller');
+const { createTarjeta} = require('../controllers/tarjeta.controller');
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
 const { validarCliente, validarTarjeta } = require('../middleware/validaciones');
 const autorizacionCliente = require('../middleware/autorizacionCliente')
+const {getTarjetasCliente} = require('../controllers/tarjeta.controller')
 
 
 
@@ -12,6 +13,7 @@ const autorizacionCliente = require('../middleware/autorizacionCliente')
 router.post('/Create',validarCliente,createCliente);
 router.get('/Get',getClientes);
 router.post('/Tarjeta/Add',validarTarjeta,createTarjeta);
+router.get('/Metodos/:cliente_id',getTarjetasCliente)
 
 //    /api/:cliente_celular
 router.get('/:cliente_celular',getCliente);
