@@ -44,7 +44,7 @@ const Cliente = db.define("clientes",{
     },
     cliente_estado : {
         type: Sequelize.INTEGER,
-        default: 0
+        default: 1
     },
     cliente_foto : {
         type: Sequelize.CHAR,

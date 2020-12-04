@@ -27,6 +27,10 @@ const Tarjeta = db.define("tarjetas",{
         unique: true,
         allowNull: false
     },
+    tarjeta_estado:{
+        type: Sequelize.INTEGER,
+        default: 1
+    },
     cliente_id:{
         type: Sequelize.INTEGER,
         allowNull: false

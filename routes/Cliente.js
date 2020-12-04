@@ -1,7 +1,7 @@
 const {Router} = require('express')
 const router = Router();
 const {createCliente,getClientes,getCliente, stateCliente, editCliente, loginCliente} = require('../controllers/cliente.controller');
-const { createTarjeta} = require('../controllers/tarjeta.controller');
+const { createTarjeta, stateTarjeta} = require('../controllers/tarjeta.controller');
 const autorizacionTrabajador = require("../middleware/autorizacionTrabajador");
 const { validarCliente, validarTarjeta } = require('../middleware/validaciones');
 const autorizacionCliente = require('../middleware/autorizacionCliente')
@@ -20,6 +20,7 @@ router.get('/:cliente_celular',getCliente);
 router.put('/:cliente_id',stateCliente);
 router.put('/Edit/:cliente_id',editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
+router.put('/Tarjeta/Estado/:tarjeta_id',stateTarjeta);
 
 /*
 //    /api/Cliente...

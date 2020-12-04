@@ -38,9 +38,9 @@ async function createTarjeta(req, res) {
   }
 }
 
-async function getTarjetasCliente(req,res) {
-  console.log('hola');
-  const {cliente_id} = req.params;
+async function getTarjetasCliente(req, res) {
+  console.log("hola");
+  const { cliente_id } = req.params;
   try {
     const metodos = await Tarjeta.findAll({
       where: {
@@ -61,6 +61,33 @@ async function getTarjetasCliente(req,res) {
   }
 }
 
+async function stateTarjeta(req, res) {
+  const { tarjeta_id } = req.params;
+  const tarjetas = await Tarjeta.findAll({
+    attributes: ["tarjeta_id","tarjeta_estado"],
+    where: {
+      tarjeta_id
+    },
+  });
+  try {
+    if (tarjetas.length > 0) {
+      tarjetas.forEach(async (tarjeta) => {
+        nuevoestado = tarjeta.tarjeta_estado == 0 ? 1 : 0;
+        await tarjeta.update({
+          tarjeta_estado : nuevoestado
+        })
+      });
+
+      return res.json({
+        meesage: "Tarjeta deshabilitada/habilitada satisfactoriamente",
+        data: tarjetas,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 exports.getTarjetasCliente = getTarjetasCliente;
 exports.createTarjeta = createTarjeta;
+exports.stateTarjeta = stateTarjeta;

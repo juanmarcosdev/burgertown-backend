@@ -77,6 +77,7 @@ CREATE TABLE Tarjetas(
 	tarjeta_cvc				   VARCHAR(3),
 	tarjeta_vencimiento		   DATE,
 	tarjeta_tipo			   INT,
+	tarjeta_estado			   INT DEFAULT 1,
 	cliente_id			       INT,
 	
 	CONSTRAINT pk_tarjeta PRIMARY KEY (tarjeta_id),
