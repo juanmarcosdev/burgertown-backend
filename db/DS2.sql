@@ -245,8 +245,9 @@ CREATE FUNCTION agregar_productos_pedido() RETURNS TRIGGER AS $$
 	p_precio FLOAT;
 	p_descuento INT;
 	p_iva INT;
+	existencias INT;
 BEGIN
-	SELECT producto_precio,producto_iva,producto_descuento INTO p_precio,p_iva,p_descuento
+	SELECT producto_precio,producto_iva,producto_descuento,producto_existencias INTO p_precio,p_iva,p_descuento,existencias
 	FROM Productos
 	WHERE producto_codigo = NEW.producto_codigo;
 
@@ -263,6 +264,8 @@ BEGIN
 	UPDATE Pedidos SET pedido_costo = new_total
 	WHERE pedido_id = NEW.pedido_id;
 
+	UPDATE Productos SET producto_existencias = existencias - NEW.pedido_cp_cantidad
+	WHERE producto_codigo = NEW.producto_codigo;
 
 	RETURN NEW;
 END
