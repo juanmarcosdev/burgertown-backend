@@ -16,7 +16,7 @@ router.post('/AgregarProducto',agregarProductoPedido);
 //    /api/Pedido..
 router.post('/Create',autorizacionCliente,createPedido);
 router.post('/Pagar',autorizacionCliente,pagarPedido);
-router.post('/AgregarProducto/:pedido_id',autorizacionCliente,agregarProductoPedido);
+router.post('/AgregarProducto',autorizacionCliente,agregarProductoPedido);
 
 
 module.exports = router;
