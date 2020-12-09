@@ -17,6 +17,8 @@ router.put('/Edit/:trabajador_id',editTrabajador);
 router.put('/Login/:trabajador_documento',loginTrabajador);
 
 */
+//asadas
+
 //    /api/Trabajador...
 router.post('/Create',autorizacionTrabajador,validarTrabajador,createTrabajador);
 router.get('/Get',autorizacionTrabajador,getTrabajadores);
