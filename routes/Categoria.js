@@ -28,7 +28,7 @@ router.get('/Get',autorizacionTrabajador,getCategorias);
 router.get('/:categoria_id',autorizacionTrabajador,getCategoria);
 router.put('/:categoria_id',autorizacionTrabajador,stateCategoria);
 router.put('/Edit/:categoria_id',autorizacionTrabajador,editCategoria);
-router.get('/Get/Cliente',autorizacionCliente,getCategoriasCliente);
+router.get('/Get/Cliente',getCategoriasCliente);
 
 
 module.exports = router;
