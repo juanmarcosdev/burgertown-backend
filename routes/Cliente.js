@@ -30,7 +30,7 @@ router.get('/Get',autorizacionTrabajador,getClientes);
 router.post('/Tarjeta/Add',autorizacionCliente,createTarjeta);
 
 //    /api/:cliente_celular
-router.get('/:cliente_id',autorizacionTrabajador,getCliente);
+router.get('/:cliente_id',getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
 router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
