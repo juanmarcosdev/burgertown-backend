@@ -19,6 +19,10 @@ const Pago = db.define(
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      pago_cuotas:{
+        type: Sequelize.INTEGER
+    
+      },
       pago_fecha: {
         type: Sequelize.DATEONLY,
         allowNull: false,
@@ -31,6 +35,10 @@ const Pago = db.define(
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      cliente_id:{
+        type: Sequelize.INTEGER,
+        allowNull: false
+      }
     },
     {
       timestamps: false,

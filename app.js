@@ -8,6 +8,9 @@ const rutasProducto = require('./routes/Producto')
 const rutasCategoria = require('./routes/Categoria')
 const rutasSede = require('./routes/Sede');
 const rutasPedido = require('./routes/Pedido')
+const rutasReportes = require('./routes/Reportes')
+
+
 const { urlencoded } = require('express');
 //Rutas importe
 
@@ -30,6 +33,8 @@ app.use('/Categoria',rutasCategoria);
 //Rutas sede
 app.use('/Sede',rutasSede);
 //Rutas pedidio
-app.use('/Pedido',rutasPedido)
+app.use('/Pedido',rutasPedido);
+//Rutas Reportes
+app.use('/Reportes',rutasReportes);
 
 module.exports = app;

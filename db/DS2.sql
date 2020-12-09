@@ -1,5 +1,9 @@
-DROP VIEW IF EXISTS Facturas;
-DROP VIEW IF EXISTS Pago_Facturas;
+DROP VIEW IF EXISTS Productos_menos_Vendidos;
+DROP VIEW IF EXISTS Productos_mas_Vendidos;
+DROP VIEW IF EXISTS Mejores_Clientes;
+DROP VIEW IF EXISTS Sedes_mayores_Ventas;
+DROP VIEW IF EXISTS Sedes_menores_Ventas;
+
 
 DROP TABLE IF EXISTS Pagos;
 DROP TABLE IF EXISTS Pedido_contiene_productos;
@@ -45,6 +49,11 @@ DROP FUNCTION IF EXISTS codificar_pago;
 DROP FUNCTION IF EXISTS codificar_tarjeta;
 DROP FUNCTION IF EXISTS insertar_trabajador;
 DROP FUNCTION IF EXISTS agregar_productos_pedido;
+DROP FUNCTION IF EXISTS Ventas_fecha;
+DROP FUNCTION IF EXISTS Ventas_producto;
+DROP FUNCTION IF EXISTS Proximos_cumpleaneros;
+
+
 
 CREATE SEQUENCE secuencia_productos;
 CREATE SEQUENCE secuencia_sedes;
@@ -180,9 +189,10 @@ CREATE TABLE Pagos(
 	pago_metodo	               INT,
 	pago_porcentaje_pedido	   INT,
 	pago_cuotas				   INT DEFAULT 1,
-	pago_fecha                 DATE,
+	pago_fecha                 DATE NOT NULL,
 	tarjeta_id				   INT,
 	pedido_id				   INT,
+	cliente_id				   INT NOT NULL,
 	             
 	
 	CONSTRAINT pk_pago	PRIMARY KEY(pago_numero_transaccion),
@@ -191,7 +201,10 @@ CREATE TABLE Pagos(
 		REFERENCES Tarjetas(tarjeta_id) ON UPDATE CASCADE ON DELETE RESTRICT,
 
 	CONSTRAINT fk_pago_pedido FOREIGN KEY(pedido_id)
-		REFERENCES Pedidos(pedido_id) ON UPDATE CASCADE ON DELETE RESTRICT
+		REFERENCES Pedidos(pedido_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+
+	CONSTRAINT fk_pago_cliente FOREIGN KEY(cliente_id)
+		REFERENCES Clientes(cliente_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 -- ************************************************************************************
 
@@ -199,8 +212,72 @@ CREATE TABLE Pagos(
 
 -- ************************************************************************************
 
+CREATE FUNCTION Proximos_cumpleaneros()
+RETURNS TABLE(
+	nombre VARCHAR,
+	apellido VARCHAR,
+	fecha_nacimiento DATE,
+	documento VARCHAR
+) AS $$
+DECLARE
+BEGIN
+	RETURN QUERY SELECT cliente_nombre,cliente_apellido,cliente_fecha_nacimiento,cliente_documento 
+	FROM clientes WHERE EXTRACT(MONTH FROM cliente_fecha_nacimiento) BETWEEN  EXTRACT(MONTH FROM date_trunc('month',current_date + INTERVAL '1' month)) AND EXTRACT (MONTH FROM date_trunc('month',current_date + INTERVAL '2' month));
+	
+
+END
+$$ LANGUAGE plpgsql;
 
 
+
+
+-- ************************************************************************************
+
+CREATE FUNCTION Ventas_producto(producto INT)
+RETURNS TABLE(
+	producto_nombre VARCHAR,
+	unidades_vendidas BIGINT,
+	total_ventas FLOAT
+) AS $$
+DECLARE
+BEGIN
+	RETURN QUERY SELECT productos.producto_nombre,SUM(pedido_cp_cantidad) AS unidades, SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
+ 	WHERE EXTRACT(MONTH FROM pago_fecha) >  EXTRACT(MONTH FROM date_trunc('month',current_date - INTERVAL '6' month))) AS S
+	NATURAL JOIN productos 
+	WHERE producto_codigo = producto 
+	GROUP BY productos.producto_nombre ;
+
+END
+$$ LANGUAGE plpgsql;
+
+
+-- ************************************************************************************
+
+
+CREATE FUNCTION Ventas_fecha(fecha_inicial DATE, fecha_final DATE)
+RETURNS TABLE(
+	cantidad_pedidos BIGINT,
+	valor_promedio FLOAT,
+	pedido_mas_alto FLOAT,
+	pedido_mas_bajo FLOAT,
+	total_ventas FLOAT
+
+) AS $$
+DECLARE
+	
+BEGIN
+	RETURN QUERY SELECT  COUNT(pedido_id) AS cantidad,AVG(pedido_costo) AS promedio, MAX(pedido_costo) AS alto, MIN(pedido_costo) AS bajo , SUM(pedido_costo) AS total
+	FROM pedidos NATURAL JOIN (SELECT DISTINCT pedido_id FROM pagos WHERE pago_fecha BETWEEN fecha_inicial AND fecha_final) AS sub
+	;
+
+END
+$$ LANGUAGE plpgsql;
+
+
+
+
+-- ************************************************************************************
 
 CREATE FUNCTION codificar_pago() RETURNS TRIGGER AS $$
 DECLARE
@@ -217,7 +294,6 @@ BEGIN
 
 
 	NEW.pago_numero_transaccion := NEXTVAL('secuencia_pagos');
-	NEW.pago_fecha := current_date ;
 	NEW.pago_valor := (NEW.pago_porcentaje_pedido*valor_pedido)/100;
 
 
@@ -403,7 +479,7 @@ EXECUTE PROCEDURE insertar_trabajador();
 INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Sede Costa','Carrera 1 # 5-30','Cali','07:00 AM', '08:00 PM');
 
 INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password,cliente_foto)
-VALUES('3166891624','Humberto','Mora','1113696488','Carrera 4 # 7-10','30-03-1999','$2b$10$h71Ta5uixXRBIMcxMFacUe2lCPgS3yFYfKdIXlQewZVWRqjiU57Fi','http://ciencias.univalle.edu.co/images/imagenes/profesores/matematicas/humbertoMora.gif');
+VALUES('3166891624','Humberto','Mora','1113696488','Carrera 4 # 7-10','30-01-1999','$2b$10$h71Ta5uixXRBIMcxMFacUe2lCPgS3yFYfKdIXlQewZVWRqjiU57Fi','http://ciencias.univalle.edu.co/images/imagenes/profesores/matematicas/humbertoMora.gif');
 
 -- INICIO CATEGORIAS
 
@@ -482,12 +558,70 @@ INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tip
 INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (2222222222,482,'20-06-2022',0,1);
 
 
-INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,'20-03-2020',1);
-INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id) VALUES (1,50,0,'20-03-2020',1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-10-2020',1,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-10-2020',1,1);
 
 
 
---FACTURAS:
+--REPORTES::
 
-CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, pedido_costo FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
+--*************************************************************************************
+
+CREATE VIEW Productos_mas_Vendidos AS
+SELECT producto_nombre, SUM(pedido_cp_cantidad) AS total_ventas
+FROM productos INNER JOIN pedido_contiene_productos 
+ON productos.producto_codigo = pedido_contiene_productos.producto_codigo
+GROUP BY productos.producto_nombre
+ORDER BY total_ventas DESC
+LIMIT 10;
+
+--*************************************************************************************
+CREATE VIEW Productos_menos_Vendidos AS
+SELECT producto_nombre, SUM(pedido_cp_cantidad) AS total_ventas
+FROM productos INNER JOIN pedido_contiene_productos 
+ON productos.producto_codigo = pedido_contiene_productos.producto_codigo
+GROUP BY productos.producto_nombre
+ORDER BY total_ventas ASC
+LIMIT 20;
+
+--*************************************************************************************
+
+CREATE VIEW Mejores_Clientes AS
+SELECT cliente_nombre,SUM(pago_valor) AS contribucion
+FROM pagos INNER JOIN clientes
+ON clientes.cliente_id = pagos.cliente_id
+GROUP BY clientes.cliente_nombre
+ORDER BY contribucion DESC
+LIMIT 5;
+
+--*************************************************************************************
+
+CREATE VIEW Sedes_mayores_Ventas AS 
+SELECT sede_nombre, SUM(pago_valor) AS ventas_sede
+FROM sedes NATURAL JOIN pedidos NATURAL JOIN pagos
+GROUP BY sede_nombre
+ORDER BY ventas_sede DESC
+LIMIT 5;
+
+
+--*************************************************************************************
+CREATE VIEW Sedes_menores_Ventas AS 
+SELECT sede_nombre, SUM(pago_valor) AS ventas_sede
+FROM sedes NATURAL JOIN pedidos NATURAL JOIN pagos
+GROUP BY sede_nombre
+ORDER BY ventas_sede ASC
+LIMIT 5;
+
+
+--*************************************************************************************
+
+
+
+
+
+
+
+
+
+--CREATE VIEW FACTURAS AS (SELECT DISTINCT sede_id,sede_nombre,sede_direccion,pedido_id,cliente_celular,cliente_nombre,cliente_direccion, pedido_costo FROM pedidos NATURAL JOIN pedido_contiene_productos NATURAL JOIN Clientes NATURAL JOIN Sedes GROUP BY sede_id,sede_nombre,sede_direccion,cliente_celular,pedido_id,cliente_nombre,cliente_direccion);
 --CREATE VIEW PAGO_FACTURAS AS (SELECT DISTINCT pagos.pedido_id,cliente_nombre,cliente_apellido,tarjeta_id,tarjeta_numero,SUM(pago_valor) AS pago_valor,pago_cuotas,pago_fecha FROM pagos NATURAL JOIN tarjetas NATURAL JOIN clientes ORDER BY pedido_id);
