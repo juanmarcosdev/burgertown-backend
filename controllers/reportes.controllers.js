@@ -69,8 +69,10 @@ async function Ventas_producto(req,res){
 }
 
 async function Ventas_Fecha(req,res){
-    const{fecha_inicial,fecha_final} = req.body
-    const [results] = await sequelize.query('SELECT * FROM ventas_fecha('+ fecha_inicial + ','+ fecha_final + ');');
+    const {fecha_inicial,fecha_final} = req.body;
+    const new_fecha_inicial = fecha_inicial.toString();
+    const new_fecha_final = fecha_final.toString();
+    const [results] = await sequelize.query('SELECT * FROM ventas_fecha(\''+ fecha_inicial + '\',\''+ fecha_final + '\');');
     res.json({
         data: results,
         message: 'Ventas en esta fecha'
