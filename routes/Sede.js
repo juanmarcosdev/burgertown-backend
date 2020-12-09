@@ -18,10 +18,10 @@ router.put('/Edit/:sede_id',editSede);
 
 //    /api/Sede...
 router.post('/Create',autorizacionTrabajador,createSede);
-router.get('/Get',autorizacionTrabajador,getSedes);
+router.get('/Get',getSedes);
 
 //    /api/:Sede_id
-router.get('/:sede_id',autorizacionTrabajador,getSede);
+router.get('/:sede_id',getSede);
 router.put('/:sede_id',autorizacionTrabajador,stateSede);
 router.put('/Edit/:sede_id',autorizacionTrabajador,editSede);
 
