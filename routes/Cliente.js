@@ -8,7 +8,7 @@ const autorizacionCliente = require('../middleware/autorizacionCliente')
 const {getTarjetasCliente} = require('../controllers/tarjeta.controller')
 
 
-
+/*
 //    /api/Cliente...
 router.post('/Create',validarCliente,createCliente);
 router.get('/Get',getClientes);
@@ -22,7 +22,8 @@ router.put('/Edit/:cliente_id',editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
 router.put('/Tarjeta/Estado/:tarjeta_id',stateTarjeta);
 
-/*
+*/
+
 //    /api/Cliente...
 router.post('/Create',validarCliente,createCliente);
 router.get('/Get',autorizacionTrabajador,getClientes);
@@ -33,6 +34,6 @@ router.get('/:cliente_id',autorizacionTrabajador,getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
 router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
-*/
+
 
 module.exports = router;
