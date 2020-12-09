@@ -28,12 +28,13 @@ router.put('/Tarjeta/Estado/:tarjeta_id',stateTarjeta);
 router.post('/Create',validarCliente,createCliente);
 router.get('/Get',autorizacionTrabajador,getClientes);
 router.post('/Tarjeta/Add',autorizacionCliente,createTarjeta);
+router.get('/Metodos/:cliente_id',autorizacionCliente,getTarjetasCliente)
 
 //    /api/:cliente_celular
 router.get('/:cliente_celular',getCliente);
 router.put('/:cliente_id',autorizacionTrabajador,stateCliente);
 router.put('/Edit/:cliente_id',autorizacionTrabajador,editCliente);
 router.put('/Login/:cliente_celular',loginCliente);
-
+router.put('/Tarjeta/Estado/:tarjeta_id',autorizacionCliente,stateTarjeta);
 
 module.exports = router;
