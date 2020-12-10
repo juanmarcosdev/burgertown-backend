@@ -518,6 +518,9 @@ EXECUTE PROCEDURE insertar_trabajador();
 
 INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Sede Costa','Carrera 1 # 5-30','Cali','07:00 AM', '08:00 PM');
 
+INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Sede Ciudad Jardin','Carrera 104 #85-22','Cali','05:30 PM', '03:30 AM');
+INSERT INTO Sedes(sede_nombre,sede_direccion,sede_ciudad, sede_horario_apertura, sede_horario_cierre) VALUES('Parque del Perro','Carrera 34 #3-2','Cali','06:00 PM', '02:00 AM');
+
 INSERT INTO Clientes(cliente_celular,cliente_nombre,cliente_apellido,cliente_documento,cliente_direccion,cliente_fecha_nacimiento,cliente_password,cliente_foto)
 VALUES('3166891624','Humberto','Mora','1113696488','Carrera 4 # 7-10','30-01-1999','$2b$10$h71Ta5uixXRBIMcxMFacUe2lCPgS3yFYfKdIXlQewZVWRqjiU57Fi','http://ciencias.univalle.edu.co/images/imagenes/profesores/matematicas/humbertoMora.gif');
 
@@ -600,6 +603,54 @@ INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tip
 
 INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-08-2020',1,1);
 INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-08-2020',1,1);
+
+
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (2,1);
+
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (2,2,9);
+
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (3,2,10);
+
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-07-2020',2,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-07-2020',2,1);
+
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (3,1);
+
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (3,3,13);
+
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (4,3,14);
+
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-06-2020',3,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-06-2020',3,1);
+
+
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (1,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (2,4,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,100,0,'20-07-2020',4,1);
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (2,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (1,5,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,100,0,'20-06-2020',5,1);
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (3,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (3,6,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,100,0,'20-09-2020',6,1);
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (1,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (4,7,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,100,0,'20-10-2020',7,1);
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (2,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (5,8,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,100,0,'20-11-2020',8,1);
+
+INSERT INTO Pedidos(sede_id,cliente_id) VALUES (3,1);
+INSERT INTO Pedido_contiene_productos (pedido_cp_cantidad,pedido_id,producto_codigo) VALUES (6,9,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,100,0,'01-12-2020',9,1);
+
 
 
 
