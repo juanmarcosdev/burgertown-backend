@@ -27,7 +27,7 @@ router.put('/Tarjeta/Estado/:tarjeta_id',stateTarjeta);
 //    /api/Cliente...
 router.post('/Create',validarCliente,createCliente);
 router.get('/Get',autorizacionTrabajador,getClientes);
-router.post('/Tarjeta/Add',autorizacionCliente,createTarjeta);
+router.post('/Tarjeta/Add',autorizacionCliente,validarTarjeta,createTarjeta);
 router.get('/Metodos/:cliente_id',autorizacionCliente,getTarjetasCliente)
 
 //    /api/:cliente_celular
