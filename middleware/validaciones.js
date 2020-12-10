@@ -54,10 +54,10 @@ async function validarTarjeta(req,res,next){
       }
     })
     if(findTarjeta){
-      res.json({
+      res.status(500).json({
+        message: 'esta tarjeta ya se encuentra registrada para este cliente',
         error:1,//Esta tarjeta ya esta inscrita para este trabajador
-        message: 'esta tarjeta ya se encuentra registrada para este cliente'
-      })
+      });
     }
     else {
       next()
