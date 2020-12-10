@@ -235,21 +235,21 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION Ventas_producto(producto INT)
 RETURNS TABLE(
-	mes TEXT,
+	fecha DATE,
 	total_ventas FLOAT
 ) AS $$
 DECLARE
 	
 BEGIN
 
-	RETURN QUERY SELECT 'Mes_1'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	RETURN QUERY SELECT DATE(date_trunc('month',current_date) - INTERVAL '6' month) AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
  	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '6' month)  AND producto_codigo = producto  )AS S
 	GROUP BY producto_codigo 
 
 	UNION 
 	
-	SELECT 'Mes_2'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	SELECT DATE(date_trunc('month',current_date) - INTERVAL '5' month) AS mes ,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
  	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '5' month)  AND producto_codigo = producto  )AS S
 	GROUP BY producto_codigo
@@ -257,7 +257,7 @@ BEGIN
 
 	UNION 
 
-	SELECT 'Mes_3'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	SELECT DATE(date_trunc('month',current_date) - INTERVAL '4' month) AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
  	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '4' month)  AND producto_codigo = producto  )AS S
 	GROUP BY producto_codigo
@@ -265,7 +265,7 @@ BEGIN
 
 	UNION 
 
-	SELECT 'Mes_4'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	SELECT DATE(date_trunc('month',current_date) - INTERVAL '3' month) AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
  	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '3' month)  AND producto_codigo = producto  )AS S
 	GROUP BY producto_codigo
@@ -273,7 +273,7 @@ BEGIN
 
 	UNION 
 
-	SELECT 'Mes_5'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	SELECT DATE(date_trunc('month',current_date) - INTERVAL '2' month) AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
  	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '2' month)  AND producto_codigo = producto  )AS S
 	GROUP BY producto_codigo
@@ -281,7 +281,7 @@ BEGIN
 
 	UNION 
 
-	SELECT 'Mes_6'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	SELECT DATE(date_trunc('month',current_date) - INTERVAL '1' month) AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
  	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '1' month)  AND producto_codigo = producto  )AS S
 	GROUP BY producto_codigo;
