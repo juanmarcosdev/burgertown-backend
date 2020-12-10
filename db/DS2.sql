@@ -222,7 +222,7 @@ RETURNS TABLE(
 DECLARE
 BEGIN
 	RETURN QUERY SELECT cliente_nombre,cliente_apellido,cliente_fecha_nacimiento,cliente_documento 
-	FROM clientes WHERE EXTRACT(MONTH FROM cliente_fecha_nacimiento) BETWEEN  EXTRACT(MONTH FROM date_trunc('month',current_date + INTERVAL '1' month)) AND EXTRACT (MONTH FROM date_trunc('month',current_date + INTERVAL '2' month));
+	FROM clientes WHERE EXTRACT(MONTH FROM cliente_fecha_nacimiento) =  EXTRACT(MONTH FROM date_trunc('month',current_date + INTERVAL '1' month));
 	
 
 END
@@ -235,18 +235,58 @@ $$ LANGUAGE plpgsql;
 
 CREATE FUNCTION Ventas_producto(producto INT)
 RETURNS TABLE(
-	producto_nombre VARCHAR,
-	unidades_vendidas BIGINT,
+	mes TEXT,
 	total_ventas FLOAT
 ) AS $$
 DECLARE
+	
 BEGIN
-	RETURN QUERY SELECT productos.producto_nombre,SUM(pedido_cp_cantidad) AS unidades, SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+
+	RETURN QUERY SELECT 'Mes_1'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
 	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
- 	WHERE EXTRACT(MONTH FROM pago_fecha) >  EXTRACT(MONTH FROM date_trunc('month',current_date - INTERVAL '6' month))) AS S
-	NATURAL JOIN productos 
-	WHERE producto_codigo = producto 
-	GROUP BY productos.producto_nombre ;
+ 	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '6' month)  AND producto_codigo = producto  )AS S
+	GROUP BY producto_codigo 
+
+	UNION 
+	
+	SELECT 'Mes_2'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
+ 	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '5' month)  AND producto_codigo = producto  )AS S
+	GROUP BY producto_codigo
+	 
+
+	UNION 
+
+	SELECT 'Mes_3'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
+ 	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '4' month)  AND producto_codigo = producto  )AS S
+	GROUP BY producto_codigo
+	 
+
+	UNION 
+
+	SELECT 'Mes_4'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
+ 	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '3' month)  AND producto_codigo = producto  )AS S
+	GROUP BY producto_codigo
+	 
+
+	UNION 
+
+	SELECT 'Mes_5'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
+ 	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '2' month)  AND producto_codigo = producto  )AS S
+	GROUP BY producto_codigo
+	 
+
+	UNION 
+
+	SELECT 'Mes_6'AS mes,SUM(pedido_cp_precio * pedido_cp_cantidad) AS subtotal 
+	FROM (SELECT  DISTINCT producto_codigo,pedido_cp_cantidad,pedido_cp_precio FROM pedido_contiene_productos NATURAL JOIN pagos 
+ 	WHERE date_trunc('month',pago_fecha) = (date_trunc('month',current_date) - INTERVAL '1' month)  AND producto_codigo = producto  )AS S
+	GROUP BY producto_codigo;
+	
+	
 
 END
 $$ LANGUAGE plpgsql;
@@ -558,8 +598,8 @@ INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tip
 INSERT INTO Tarjetas (tarjeta_numero,tarjeta_cvc,tarjeta_vencimiento,tarjeta_tipo,cliente_id) VALUES (2222222222,482,'20-06-2022',0,1);
 
 
-INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-10-2020',1,1);
-INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-10-2020',1,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-08-2020',1,1);
+INSERT INTO Pagos (tarjeta_id,pago_porcentaje_pedido,pago_cuotas,pago_fecha,pedido_id,cliente_id) VALUES (1,50,0,'20-08-2020',1,1);
 
 
 
