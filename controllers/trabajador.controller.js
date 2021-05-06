@@ -190,12 +190,12 @@ async function loginTrabajador(req, res) {
 
   if (getTrabajador) {
     try {
-      const compararContraseña = await Encriptacion.Comparar(
-        trabajador_password,
-        getTrabajador.trabajador_password
-      );
+      //const compararContraseña = await Encriptacion.Comparar(
+      //  trabajador_password,
+      //  getTrabajador.trabajador_password
+      //);
 
-      if (compararContraseña) {
+      if (trabajador_password == getTrabajador.trabajador_password) {
         const token = await jwtGeneratorTrabajador(trabajador_documento);
         return res.json({
           message: "login exitoso",
